@@ -28,18 +28,19 @@
       var render = yieldbot.renderAd;
       var asyncEnabled = (function() {
         if (yieldbot.enableAsync !== 'null') {
-          var async = 'false';
+          var ifAsync = 'false';
         } else {
-          var async = 'true';
+          var ifAsync = 'true';
         }
       });
       var pub = yieldbot.pub();
-      var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src').split('/');
+
+      var init = $('script[src^="http://i.yldbt.com"]').attr('src');
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
       var element = $(
         '<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub +
-        '<div class="yb_aync">Init</div>' + async + '</div>');
+        '<div class="yb_aync">Init</div>' + ifAsync + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
