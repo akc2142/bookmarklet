@@ -18,11 +18,11 @@
   } else {
     releaseTheKraken();
   }
-  (function releaseTheKraken() {
-    //  window.theKraken = function() {
-    // var outterDiv = document.createElement('div');
-    console.log('it works!');
-    console.log('what?');
-  })();
-  // }
+
+  function releaseTheKraken() {
+    window.theKraken = function() {
+      // var outterDiv = document.createElement('div');
+      console.log('it works!');
+    }();
+  }
 })();
