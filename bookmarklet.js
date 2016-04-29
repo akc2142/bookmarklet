@@ -1,4 +1,4 @@
-function() {
+(function() {
   // the minimum version of jQuery we want
   var v = "1.3.2";
   // check prior inclusion and version
@@ -18,11 +18,10 @@ function() {
   } else {
     releaseTheKraken();
   }
-
-  function releaseTheKraken() {
-  //  window.theKraken = function() {
-      // var outterDiv = document.createElement('div');
-      console.log('it works!');
-    }();
+  (function releaseTheKraken() {
+    //  window.theKraken = function() {
+    // var outterDiv = document.createElement('div');
+    console.log('it works!');
+  })();
   // }
-}();
+})();
