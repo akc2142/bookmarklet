@@ -30,9 +30,15 @@
         if (yieldbot.enableAsync !== 'null') {
           ifasyncEnabled = 'true';
         }
+      }
       var pub = yieldbot.pub();
-
-      var init = $('script[src^="http://i.yldbt.com"]').attr('src');
+      var init = $('script[src^="http://i.yldbt.com"]').attr('src').split(
+        '&');
+      var go = function() {
+        if (yieldbot.go !== 'null') {
+          yb_go = 'true';
+        }
+      }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
       var element = $(
