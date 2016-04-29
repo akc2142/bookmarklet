@@ -34,6 +34,7 @@
         }
       });
       var pub = yieldbot.pub();
+      var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src').split('/');
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
       var element = $(
@@ -50,7 +51,7 @@
         height: '400px',
         backgroundColor: 'black'
       });
-      console.log('it works!');
+      console.log('it works! ' + init);
     }();
   }
 })();
