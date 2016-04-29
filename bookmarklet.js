@@ -24,19 +24,32 @@
           return "Are you sure you want to leave? Think of the kittens!";
         }
         // create the element:
-      var element = $('<div id="yb_box"></div>');
+        //var intentTag
+      var render = yieldbot.renderAd;
+      var asyncEnabled = (function() {
+        if (yieldbot.enableAsync !== 'null') {
+          var async = 'false';
+        } else {
+          var async = 'true';
+        }
+      });
+      var pub = yieldbot.pub();
+      var slotCriteria = yieldbot.getSlotCriteria();
+      var pageCriteria = yieldbot.getPageCriteria();
+      var element = $(
+        '<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub +
+        '<div class="yb_aync">Init</div>' + async + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
       element.css({
         position: 'absolute',
-        top: '10px',
+        top: '60px',
         right: '10px',
-        width: '200px',
-        height: '90px',
+        width: '500px',
+        height: '400px',
         backgroundColor: 'black'
       });
-      var outterDiv = document.createElement('div');
       console.log('it works!');
     }();
   }
