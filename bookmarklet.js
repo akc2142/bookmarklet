@@ -22,7 +22,7 @@
 	function releaseTheKraken() {
 		(window.theKraken = function() {
 			var outterDiv = document.createElement('div');
-      console.log('it works!')
+      console.log('it works!');
 		})();
 	}
 
