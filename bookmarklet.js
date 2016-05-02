@@ -53,15 +53,13 @@
       var slotNames = $(slots).split('|');
       var sizes = splitInit.ssz;
       console.log(slotNames);
-      var initNoAds = queryStringToJSON();
-      var initNoAds = JSON.parse(initNoAds);
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span> <div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div"> Pub ID: ' + pub + '<a style="color: #66CC00!important;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> To Meow </a></div><div class="yb_div">' + '</div>');
+      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span> <div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div"> Pub ID: ' + pub + '<a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div">' + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
