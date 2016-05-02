@@ -25,7 +25,7 @@
           return "Are you sure you want to leave? Think of the kittens!";
         }
       // Define all future variables in one step
-      var asyncEnabled, var ybGo;
+      var asyncEnabled, ybGo;
       var pub = yieldbot.pub(); // Retrieve pub ID
       // Check if async is enabled
       if (yieldbot.enableAsync !== 'null') {
