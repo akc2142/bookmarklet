@@ -30,7 +30,11 @@
           ifasyncEnabled = 'true';
         }
       var pub = yieldbot.pub();
-      var init = $('script[src^="http://i.yldbt.com"]').attr('src').split('&');
+      var init = if (script[src^="http://ads-adseast.yldbt.com" !== null) {
+        $('script[src^="http://ads-adseast.yldbt.com"]').attr('src').split('&');
+      } else {
+        return "Ads weren't served";
+      }
       var json_init = JSON.parse(JSON.stringify(init));
       var go = function() {
         if (yieldbot.go !== 'null') {
