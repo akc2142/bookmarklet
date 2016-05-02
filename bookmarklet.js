@@ -67,9 +67,9 @@
       $('body').append(element);
       // style it:
       element.css({
-        position: 'absolute',
-        top: '0px',
-        right: '10px',
+        position: 'fixed',
+        top: '0',
+        right: '0',
         width: '500px',
         height: '400px',
         color: 'white',
