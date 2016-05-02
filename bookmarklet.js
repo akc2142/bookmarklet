@@ -50,8 +50,9 @@
       console.log(splitInit);
       var pvi = splitInit.pvi;
       var slots = splitInit.sn;
-      var slotBreakdown = $(slots).split('|')
-      console.log(slots);
+      var slotNames = $(slots).split('|');
+      var sizes = splitInit.ssz;
+      console.log(slotNames);
       var initNoAds = queryStringToJSON();
       var initNoAds = JSON.parse(initNoAds);
       var render = yieldbot.renderAd;
