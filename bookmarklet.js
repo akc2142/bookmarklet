@@ -52,7 +52,7 @@
       var initNoAds = queryStringToJSON();
       var initNoAds = JSON.parse(initNoAds);
       console.log('no ads' + initNoAds);
-      
+
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
@@ -70,7 +70,7 @@
         width: '500px',
         height: '400px',
         color: 'white',
-        padding: '3%',
+        padding: '0 0 0 3%',
         fontWeight: 'bold',
         zIndex: '999999',
         fontSize: '16px',
