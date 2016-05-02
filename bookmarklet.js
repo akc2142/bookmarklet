@@ -31,22 +31,23 @@
       if (yieldbot.enableAsync !== 'null') {
           asyncEnabled = 'true';
         }
-      var init = $('script[src^="http://ads-adseast.yldbt.com"]');
-      if (init !== null) {
-        var splitInit = init.attr('src').split('&');
+
+      var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src');
+
+      if (init !== undefined) {
+        var splitInit = init.split('&');
         console.log(splitInit);
-        return splitInit;
       } else {
-        return "Ads weren't served";
+        var unavailable = 'No ads loaded';
       }
-      var json_init = JSON.parse(JSON.stringify(splitInit));
+    
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID is: </div>' + pub + '<div class="yb_async">Async is enabled: </div>' + asyncEnabled + '</div> <div class="yb_intent">Intent tag is loaded: </div>' + ybGo + '</div>');
+      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID is: </div>' + pub + '<div class="yb_async">Async is enabled: </div>' + asyncEnabled + '</div> <div class="yb_intent">Intent tag is loaded: </div>' + ybGo + '</div> </div> <div class="yb_ads"> </div>' + ybGo + '</div>' + unavailable);
       // append it to the body:
       $('body').append(element);
       // style it:
