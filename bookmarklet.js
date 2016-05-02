@@ -40,14 +40,14 @@
       } else {
         var unavailable = 'No ads loaded';
       }
-    
+
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID is: </div>' + pub + '<div class="yb_async">Async is enabled: </div>' + asyncEnabled + '</div> <div class="yb_intent">Intent tag is loaded: </div>' + ybGo + '</div> </div> <div class="yb_ads"> </div>' + ybGo + '</div>' + unavailable);
+      var element = $('<div id="yb_box"> <div class="yb_pub"> Pub ID is: ' + pub + '</div> <div class="yb_async"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_intent"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_ads">' + ybGo + '</div> <div class="yb_unavailable">' + unavailable + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
