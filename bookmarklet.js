@@ -44,13 +44,15 @@
         result[pair[0]] = decodeURIComponent(pair[1] || '');
       });
       // console.log(result);
-      return JSON.parse(JSON.stringify(result));
+      return JSON.stringify(result);
       }
       if (init !== undefined) {
         var splitInit = queryStringToJSON();
-        console.log(splitInit);
+        var splitInit = JSON.parse(splitInit);
+        console.log(splitInit.pvi);
       } else {
         var initNoAds = queryStringToJSON();
+        var initNoAds = JSON.parse(initNoAds);
         var unavailable = 'No ads loaded';
       }
 
