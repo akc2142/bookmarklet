@@ -43,7 +43,9 @@
       var pageCriteria = yieldbot.getPageCriteria();
       var element = $(
         '<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub +
-        '<div class="yb_aync">Init</div>' + ifasyncEnabled + '</div>');
+        '<div class="yb_aync">Init</div>' // + ifasyncEnabled +
+        '</div>'
+      );
       // append it to the body:
       $('body').append(element);
       // style it:
