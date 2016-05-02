@@ -32,8 +32,8 @@
         }
       }
       var pub = yieldbot.pub();
-      var init = $('script[src^="http://i.yldbt.com"]').attr('src').split(
-        '&');
+      var init = $('script[src^="http://i.yldbt.com"]').attr('src').split('&');
+      var json_init = JSON.parse(JSON.stringify(init));
       var go = function() {
         if (yieldbot.go !== 'null') {
           yb_go = 'true';
@@ -43,9 +43,7 @@
       var pageCriteria = yieldbot.getPageCriteria();
       var element = $(
         '<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub +
-        '<div class="yb_aync">Init</div>' // + ifasyncEnabled +
-        '</div>'
-      );
+        '<div class="yb_aync">Init</div>' + asyncEnabled + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
