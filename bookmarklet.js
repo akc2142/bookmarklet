@@ -53,7 +53,7 @@
       } else {
         var initNoAds = queryStringToJSON();
         var initNoAds = JSON.parse(initNoAds);
-        var unavailable = 'No ads loaded';
+        console.log(initNoAds);
       }
 
       var render = yieldbot.renderAd;
@@ -62,7 +62,7 @@
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box" style="z-index:\'999999\';"> <div class="yb_pub"> Pub ID is: ' + pub + '</div> <div class="yb_async"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_intent"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_ads">' + ybGo + '</div> <div class="yb_unavailable">' + unavailable + '</div>');
+      var element = $('<div id="yb_box"> <div class="yb_div"> Pub ID is: ' + pub + '</div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div">' + ybGo + '</div> <div class="yb_div">' + unavailable + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
@@ -73,6 +73,8 @@
         width: '500px',
         height: '400px',
         color: 'white',
+        padding: '3%',
+        zIndex: '999999',
         fontSize: '15px',
         backgroundColor: 'rgba(0,0,0,.75)',
       });
