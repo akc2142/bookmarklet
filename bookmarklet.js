@@ -25,20 +25,33 @@
           return "Are you sure you want to leave? Think of the kittens!";
         }
       // Define all future variables in one step
-      var asyncEnabled, ybGo;
+      var asyncEnabled, ybGo, pairs;
       var pub = yieldbot.pub(); // Retrieve pub ID
       // Check if async is enabled
       if (yieldbot.enableAsync !== 'null') {
           asyncEnabled = 'true';
         }
-
       var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src');
-
+      function queryStringToJSON() {
+        if (init !== undefined) {
+          var pairs = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src').split('&');
+        } else {
+          var pairs = $('script[src^="http://i.yldbt.com"]').attr('src').split('&');
+        }
+        var result = {};
+        pairs.forEach(function(pair) {
+        pair = pair.split('=');
+        result[pair[0]] = decodeURIComponent(pair[1] || '');
+      });
+      // console.log(result);
+      return JSON.parse(JSON.stringify(result));
+      }
       if (init !== undefined) {
-        var splitInit = init.split('&');
+        var splitInit = queryStringToJSON();
         console.log(splitInit);
       } else {
-        var unavailable = 'No ads loaded - updateState did not fire';
+        var initNoAds = queryStringToJSON();
+        var unavailable = 'No ads loaded';
       }
 
       var render = yieldbot.renderAd;
