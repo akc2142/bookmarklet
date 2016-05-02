@@ -60,7 +60,7 @@
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box" style="z-index:"999999";"> <div class="yb_pub"> Pub ID is: ' + pub + '</div> <div class="yb_async"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_intent"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_ads">' + ybGo + '</div> <div class="yb_unavailable">' + unavailable + '</div>');
+      var element = $('<div id="yb_box" style="z-index:\'999999\';"> <div class="yb_pub"> Pub ID is: ' + pub + '</div> <div class="yb_async"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_intent"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_ads">' + ybGo + '</div> <div class="yb_unavailable">' + unavailable + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
