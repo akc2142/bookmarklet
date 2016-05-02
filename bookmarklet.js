@@ -33,6 +33,8 @@
       var init = $('script[src^="http://ads-adseast.yldbt.com"]');
       if (init !== null) {
         var split_init = init.attr('src').split('&');
+        console.log(split_init);
+        return split_init;
       } else {
         return "Ads weren't served";
       }
