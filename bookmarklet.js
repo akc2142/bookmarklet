@@ -53,7 +53,7 @@
         var initNoAds = queryStringToJSON();
         var unavailable = 'No ads loaded';
       }
-      console.log(splitInit.pvi);
+
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
