@@ -38,7 +38,7 @@
         var splitInit = init.split('&');
         console.log(splitInit);
       } else {
-        var unavailable = 'No ads loaded';
+        var unavailable = 'No ads loaded - updateState did not fire';
       }
 
       var render = yieldbot.renderAd;
@@ -57,7 +57,10 @@
         right: '10px',
         width: '500px',
         height: '400px',
-        backgroundColor: 'rgba(0,0,0,.75)',
+        color: 'white',
+        z-index: '999999',
+        font-size: '15px',
+        background-color: 'rgba(0,0,0,.75)',
       });
       console.log('it works! ');
     }();
