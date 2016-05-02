@@ -43,27 +43,23 @@
         pair = pair.split('=');
         result[pair[0]] = decodeURIComponent(pair[1] || '');
       });
-
       return JSON.stringify(result);
       }
-      if (init !== undefined) {
-        var splitInit = queryStringToJSON();
-        var splitInit = JSON.parse(splitInit);
-        var pvi = splitInit.pvi;
-        console.log('ads' + splitInit);
-      } else {
-        var initNoAds = queryStringToJSON();
-        var initNoAds = JSON.parse(initNoAds);
-        console.log('no ads' + initNoAds);
-      }
-
+      var splitInit = queryStringToJSON();
+      var splitInit = JSON.parse(splitInit);
+      var pvi = splitInit.pvi;
+      console.log('ads' + splitInit.pvi);
+      var initNoAds = queryStringToJSON();
+      var initNoAds = JSON.parse(initNoAds);
+      console.log('no ads' + initNoAds);
+      
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: rgb(0,153,0);"> theKRAKEN <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> </span> <div class="yb_div"> PVI is: <span style="color:rgb(153,255,153); font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div"><a href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> Pub ID: ' + pub + '</a></div><div class="yb_div">' + '</div>');
+      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: rgb(0,153,0);"> theKRAKEN <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> </span> <div class="yb_div"> PVI is: <span style="color:rgb(153,255,153); font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div"><a style="color: rgb(0,153,0);" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> Pub ID: ' + pub + '</a></div><div class="yb_div">' + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
