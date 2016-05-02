@@ -50,9 +50,10 @@
       console.log(splitInit);
       var pvi = splitInit.pvi;
       var slots = splitInit.sn;
-      var slotNames = $(slots).split('|');
+      console.log(splitInit.sn);
+    //  var slotNames = $(slots).split('|');
       var sizes = splitInit.ssz;
-      console.log(slotNames);
+      //console.log(slotNames);
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
           ybGo = 'true';
