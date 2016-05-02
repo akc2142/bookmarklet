@@ -62,7 +62,7 @@
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <div class="yb_div"> Pub ID is: ' + pub + '</div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div">' + ybGo + '</div> <div class="yb_div">' + unavailable + '</div>');
+      var element = $('<div id="yb_box"> THE KRAKEN <div class="yb_div"> Pub ID is: ' + pub + '</div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div">' + '</div> <div class="yb_div">' + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
@@ -74,8 +74,9 @@
         height: '400px',
         color: 'white',
         padding: '3%',
+        fontWeight: 'bold',
         zIndex: '999999',
-        fontSize: '15px',
+        fontSize: '16px',
         backgroundColor: 'rgba(0,0,0,.75)',
       });
       console.log('it works! ');
