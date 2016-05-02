@@ -20,34 +20,33 @@
 
   function releaseTheKraken() {
     window.theKraken = function() {
+      // Stop automatic page reload
       window.onbeforeunload = function() {
           return "Are you sure you want to leave? Think of the kittens!";
         }
-        // create the element:
-        //var intentTag
-      var render = yieldbot.renderAd;
-      var asyncEnabled;
+      // Define all future variables in one step
+      var asyncEnabled, var ybGo;
+      var pub = yieldbot.pub(); // Retrieve pub ID
+      // Check if async is enabled
       if (yieldbot.enableAsync !== 'null') {
           asyncEnabled = 'true';
         }
-      var pub = yieldbot.pub();
       var init = $('script[src^="http://ads-adseast.yldbt.com"]');
       if (init !== null) {
-        var split_init = init.attr('src').split('&');
-        console.log(split_init);
-        return split_init;
+        var splitInit = init.attr('src').split('&');
+        console.log(splitInit);
+        return splitInit;
       } else {
         return "Ads weren't served";
       }
-      var json_init = JSON.parse(JSON.stringify(split_init));
-      var go = function() {
-        if (yieldbot.go !== 'null') {
-          yb_go = 'true';
-        }
+      var json_init = JSON.parse(JSON.stringify(splitInit));
+      var render = yieldbot.renderAd;
+      if (yieldbot.go !== null) {
+          ybGo = 'true';
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub + '<div class="yb_aync">Init</div>' + asyncEnabled + '</div>');
+      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID is: </div>' + pub + '<div class="yb_async">Async is enabled: </div>' + asyncEnabled + '</div> <div class="yb_intent">Intent tag is loaded: </div>' + ybGo + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
@@ -57,7 +56,7 @@
         right: '10px',
         width: '500px',
         height: '400px',
-        backgroundColor: 'black'
+        backgroundColor: 'rgba(0,0,0,.75)',
       });
       console.log('it works! ');
     }();
