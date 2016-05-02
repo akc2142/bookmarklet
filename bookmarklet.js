@@ -47,7 +47,7 @@
       }
       var splitInit = queryStringToJSON();
       var splitInit = JSON.parse(splitInit);
-      console.log(splitInit)
+      console.log(splitInit);
       var pvi = splitInit.pvi;
       // var slots = splitInit.
       var initNoAds = queryStringToJSON();
