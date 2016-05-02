@@ -43,17 +43,18 @@
         pair = pair.split('=');
         result[pair[0]] = decodeURIComponent(pair[1] || '');
       });
-      // console.log(result);
+
       return JSON.stringify(result);
       }
       if (init !== undefined) {
         var splitInit = queryStringToJSON();
         var splitInit = JSON.parse(splitInit);
-        console.log(splitInit.pvi);
+        var pvi = splitInit.pvi;
+        console.log('ads' + splitInit);
       } else {
         var initNoAds = queryStringToJSON();
         var initNoAds = JSON.parse(initNoAds);
-        console.log(initNoAds);
+        console.log('no ads' + initNoAds);
       }
 
       var render = yieldbot.renderAd;
@@ -62,7 +63,7 @@
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: rgb(0,153,0);"> theKRAKEN <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> </span> <div class="yb_div"> Pub ID is:   <span style="color:rgb(153,255,153); font-weight: normal;">' + pub + '</span></div> <div class="yb_div"> Async is enabled:   ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded:   ' + ybGo + '</div> <div class="yb_div">' + '</div> <div class="yb_div">' + '</div>');
+      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: rgb(0,153,0);"> theKRAKEN <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> </span> <div class="yb_div"> Pub ID is:   <span style="color:rgb(153,255,153); font-weight: normal;">' + pub + '</span></div> <div class="yb_div"> Async is enabled:   ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded:   ' + ybGo + '</div> <div class="yb_div"><a href="https://ui.yieldbot.com/ui/meow/publisher/'+pvi+'">PVI:   ' + pvi + '</a></div><div class="yb_div">' + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
