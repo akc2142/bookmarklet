@@ -71,8 +71,8 @@
         width: '500px',
         height: '400px',
         color: 'white',
-        font-size: '15px',
-        background-color: 'rgba(0,0,0,.75)',
+        fontSize: '15px',
+        backgroundColor: 'rgba(0,0,0,.75)',
       });
       console.log('it works! ');
     }();
