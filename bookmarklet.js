@@ -59,7 +59,7 @@
         height: '400px',
         backgroundColor: 'black'
       });
-      console.log('it works! ' + init);
+      console.log('it works! ');
     }();
   }
 })();
