@@ -49,7 +49,9 @@
       var splitInit = JSON.parse(splitInit);
       console.log(splitInit);
       var pvi = splitInit.pvi;
-      // var slots = splitInit.
+      var slots = splitInit.sn;
+      var slotBreakdown = $(slots).split('|')
+      console.log(slots);
       var initNoAds = queryStringToJSON();
       var initNoAds = JSON.parse(initNoAds);
       var render = yieldbot.renderAd;
