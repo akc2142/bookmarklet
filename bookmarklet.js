@@ -26,8 +26,9 @@
         // create the element:
         //var intentTag
       var render = yieldbot.renderAd;
-      var asyncEnabled = if (yieldbot.enableAsync !== 'null') {
-          ifasyncEnabled = 'true';
+      var asyncEnabled;
+      if (yieldbot.enableAsync !== 'null') {
+          asyncEnabled = 'true';
         }
       var pub = yieldbot.pub();
       var init = $('script[src^="http://ads-adseast.yldbt.com"]');
@@ -46,7 +47,7 @@
       }
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub + '<div class="yb_aync">Init</div>' + ifasyncEnabled + '</div>');
+      var element = $('<div id="yb_box"> <div class="yb_pub">Pub ID</div>' + pub + '<div class="yb_aync">Init</div>' + asyncEnabled + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
