@@ -50,10 +50,12 @@
       console.log(splitInit);
       var pvi = splitInit.pvi;
       var slots = JSON.stringify(splitInit.sn);
-      var splitSlots = JSON.parse(slots.split('|'));
+      var splitSlots = slots.split('|');
+      var parseSlots = JSON.parse(splitSlots);
       console.log(splitSlots);
-    //  var slotNames = $(slots).split('|');
-      var sizes = splitInit.ssz;
+      var sizes = JSON.stringify(splitInit.ssz);
+      var splitSizes = JSON.parse(sizes.split('|'));
+      console.log(sizes);
       //console.log(slotNames);
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
