@@ -50,7 +50,7 @@
       console.log(splitInit);
       var pvi = splitInit.pvi;
       var slots = JSON.stringify(splitInit.sn);
-      var splitSlots = slots.split('|');
+      var splitSlots = JSON.parse(slots.split('|'));
       console.log(splitSlots);
     //  var slotNames = $(slots).split('|');
       var sizes = splitInit.ssz;
