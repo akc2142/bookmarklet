@@ -20,15 +20,15 @@
 
   function releaseTheKraken() {
     window.theKraken = function() {
-      // Stop automatic page reload
-      window.onbeforeunload = function() {
-          return "Are you sure you want to leave? Think of the kittens!";
-        }
+        // Stop automatic page reload
+        /* window.onbeforeunload = function() {
+           return "Are you sure you want to leave? Think of the kittens!";
+          } */
       // Define all future variables in one step
       var asyncEnabled, ybGo, pairs;
       var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
       var intentTagAsync = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('async');
-      if (undefined == intentTagSrc ) {
+      if (undefined === intentTagSrc ) {
         intentTag = 'not loaded. FATAL ERROR.';
       }
       else {
@@ -38,12 +38,15 @@
               ybGo = ' and activated';
           }
           // Check if async is enabled
-          if (intentTagAsync == true) {
+          if (intentTagAsync === true) {
               asyncEnabled = 'enabled';
             } else {
               asyncEnabled = 'not enabled';
             }
         }
+        $.ajax({
+          url: 'https://dev.yieldbot.com:443/v2/config/publisher/'+pub,
+        success: function () {
       //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
@@ -74,14 +77,11 @@
       var sizes = JSON.stringify(splitInit.ssz);
       var splitSizes = JSON.parse(sizes.split('|'));
       console.log(sizes + splitSizes);
-      //To compare ^ to the system's slot names via API
 
-      //console.log(slotNames);
       var render = yieldbot.renderAd;
-
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
-
+      //To compare ^ to the system's slot names via API
       var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> <a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div"> :<span style="color:#66CC00; font-weight: normal;">' + '</div></div>');
       // append it to the body:
       $('body').append(element);
@@ -99,7 +99,9 @@
         fontSize: '16px',
         backgroundColor: 'rgba(25,0,51,.85)',
       });
-      console.log('it works! ');
-    }();
-  }
-})();
+            console.log('it works! ');
+          }
+        })
+      }
+    }
+  })();
