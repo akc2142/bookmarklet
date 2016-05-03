@@ -82,7 +82,7 @@
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
 
-      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> <a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div"> :<span style="color:#66CC00; font-weight: normal;">' + '</div></div>');
+      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> <a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div"> :<span style="color:#66CC00; font-weight: normal;">' + '</div><div id="psn_info"></div></div>');
       // append it to the body:
       $('body').append(element);
       // style it:
@@ -99,6 +99,27 @@
         fontSize: '16px',
         backgroundColor: 'rgba(25,0,51,.85)',
       });
+      var url = 'https://dev.yieldbot.com:443/v2/config/publisher/'+pub;
+      //CORS is now blocking me
+      /*  $.ajax({
+        url: url,
+        dataType: 'text',
+        type: 'GET',
+      });
+
+       $.getJSON('https://dev.yieldbot.com:443/v2/config/publisher/'+pub,
+        function(json) {
+        var config = { "Display Name" : json.display_name,
+        "CPM" : json.cpm,
+        "Ad Serving Enabled" : json.ad_serving_enabled,
+        "Site URL" : json.base_site,
+        "Is Mobile?" : json.is_mobile
+          }
+        $.each(config, function(index, value){
+          dv = document.createElement('div');
+          $('#psn_info').append(dv);
+        });*/
+        });
       console.log('it works! ');
     }();
   }
