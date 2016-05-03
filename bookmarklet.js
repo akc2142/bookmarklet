@@ -28,7 +28,7 @@
       var asyncEnabled, ybGo, pairs;
       var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
       var intentTagAsync = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('async');
-      if (undefined == intentTagSrc ) {
+      if (undefined === intentTagSrc ) {
         intentTag = 'not loaded. FATAL ERROR.';
       }
       else {
@@ -38,7 +38,7 @@
               ybGo = ' and activated';
           }
           // Check if async is enabled
-          if (intentTagAsync == true) {
+          if (true === intentTagAsync) {
               asyncEnabled = 'enabled';
             } else {
               asyncEnabled = 'not enabled';
@@ -62,12 +62,12 @@
       });
       return JSON.stringify('results' + result);
       }
-      //Retrieve PVI
-      var pvi = splitInit.pvi;
       //Splitting up the slot sizes and names sent in GET
       var splitInit = queryStringToJSON();
       var splitInit = JSON.parse(splitInit);
       console.log('split init' + splitInit);
+      //Retrieve PVI
+      var pvi = splitInit.pvi;
       var slots = JSON.stringify(splitInit.sn);
       var splitSlots = JSON.parse(slots.split('|'));
       console.log('split slots' + splitSlots);
