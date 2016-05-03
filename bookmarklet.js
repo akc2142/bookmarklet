@@ -26,14 +26,24 @@
         }
       // Define all future variables in one step
       var asyncEnabled, ybGo, pairs;
-      var pub = yieldbot.pub(); // Retrieve pub ID
-      // Check if async is enabled
-      var asyncE = yieldbot.enableAsync();
-      if (asyncE !== undefined) {
-          asyncEnabled = 'enabled';
-        } else {
-          asyncEnabled = 'not enabled';
+      var intentTag = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
+      if (undefined == intentTag ) {
+        intentTag = 'not loaded. FATAL ERROR.';
+      }
+      else {
+          pub = yieldbot.pub(); // Retrieve pub ID
+          intentTag = 'loaded';
+          if (typeof yieldbot.go !== 'undefined') {
+              ybGo = ' and initialized';
+          }
+          // Check if async is enabled; need to come back to this one
+          if (yieldbot.enableAsync !== null) {
+              asyncEnabled = 'enabled';
+            } else {
+              asyncEnabled = 'not enabled';
+            }
         }
+      //Checking to see if the YB and DFP scripts are fired
       var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src');
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
       if (dfp !== undefined) {
@@ -41,6 +51,7 @@
       } else {
         dfpLoaded = 'not loaded';
       }
+      //Parsing the script's GET parameters
       function queryStringToJSON() {
         if (init !== undefined) {
           var pairs = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src').split('&');
@@ -54,6 +65,7 @@
       });
       return JSON.stringify(result);
       }
+      //Splitting up the slot sizes and names sent in GET
       var splitInit = queryStringToJSON();
       var splitInit = JSON.parse(splitInit);
       console.log(splitInit);
@@ -65,16 +77,15 @@
       var sizes = JSON.stringify(splitInit.ssz);
       var splitSizes = JSON.parse(sizes.split('|'));
       console.log(sizes + splitSizes);
+      //To compare ^ to the system's slot names via API
 
       //console.log(slotNames);
       var render = yieldbot.renderAd;
-      if (yieldbot.go !== null) {
-          ybGo = 'true';
-      }
+
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
 
-      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span> <div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is enabled: ' + asyncEnabled + '</div> <div class="yb_div"> Intent tag is loaded: ' + ybGo + '</div> <div class="yb_div"> Pub ID: ' + pub + '<a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div">' + '</div>');
+      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is enabled: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID: ' + pub + '<a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div">' + '</div>');
       // append it to the body:
       $('body').append(element);
       // style it:
