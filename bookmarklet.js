@@ -28,10 +28,18 @@
       var asyncEnabled, ybGo, pairs;
       var pub = yieldbot.pub(); // Retrieve pub ID
       // Check if async is enabled
-      if (yieldbot.enableAsync !== 'null') {
-          asyncEnabled = 'true';
+      if (yieldbot.enableAsync !== null) {
+          asyncEnabled = 'enabled';
+        } else {
+          asyncEnabled = 'not enabled';
         }
       var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src');
+      var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').getAttribute('src');
+      if (dfp !== null) {
+        dfpLoaded = 'loaded';
+      } else {
+        dfpLoaded = 'not loaded';
+      }
       function queryStringToJSON() {
         if (init !== undefined) {
           var pairs = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src').split('&');
