@@ -56,6 +56,7 @@
       var sizes = JSON.stringify(splitInit.ssz);
       var splitSizes = JSON.parse(sizes.split('|'));
       console.log(sizes + splitSizes);
+
       //console.log(slotNames);
       var render = yieldbot.renderAd;
       if (yieldbot.go !== null) {
