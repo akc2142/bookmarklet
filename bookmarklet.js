@@ -46,7 +46,6 @@
         }
       //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
-      var pairs = init.split('&');
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
       if (undefined !== dfp) {
         dfpLoaded = 'loaded';
@@ -55,7 +54,7 @@
       }
       //Parsing the script's GET parameters
       function queryStringToJSON() {
-        var pairs = $(init).split('&');
+        var pairs = init.split('&');
         var result = {};
         pairs.forEach(function(pair) {
         pair = pair.split('=');
