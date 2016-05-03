@@ -26,27 +26,28 @@
         }
       // Define all future variables in one step
       var asyncEnabled, ybGo, pairs;
-      var intentTag = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
-      if (undefined == intentTag ) {
+      var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
+      var intentTagAsync = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('async');
+      if (undefined == intentTagSrc ) {
         intentTag = 'not loaded. FATAL ERROR.';
       }
       else {
           pub = yieldbot.pub(); // Retrieve pub ID
           intentTag = 'loaded';
           if (typeof yieldbot.go !== 'undefined') {
-              ybGo = ' and initialized';
+              ybGo = ' and activated';
           }
-          // Check if async is enabled; need to come back to this one
-          if (yieldbot.enableAsync !== null) {
+          // Check if async is enabled
+          if (intentTagAsync == true) {
               asyncEnabled = 'enabled';
             } else {
               asyncEnabled = 'not enabled';
             }
         }
-      //Checking to see if the YB and DFP scripts are fired
-      var init = $('script[src^="http://ads-adseast.yldbt.com"]').attr('src');
+      //Checking to see if the YB init and DFP scripts are fired
+      var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
-      if (dfp !== undefined) {
+      if (undefined !== dfp) {
         dfpLoaded = 'loaded';
       } else {
         dfpLoaded = 'not loaded';
