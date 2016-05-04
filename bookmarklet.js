@@ -120,7 +120,7 @@
         items.push( '<li id="info">' + key + ' ' + val + '</li>' );
       });
         $('<ul/>', {
-        'id': 'psn_info',
+        'id': 'pub_info',
         html: items.join('')
       }).appendTo('#psn_info');
       });
