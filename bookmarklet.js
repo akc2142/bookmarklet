@@ -46,7 +46,7 @@
         }
       //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
-      var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
+      var dfp = $('script[src*="ads?"]').attr('src');
       if (undefined !== dfp) {
         dfpLoaded = 'loaded';
       } else {
@@ -54,14 +54,19 @@
       }
       //Parsing the script's GET parameters
       function queryStringToJSON() {
-        var pairs = init.split('&');
-        var result = {};
-        pairs.forEach(function(pair) {
+    if (undefined === init) {
+      var result = 'updateState never loaded';
+    } else {
+      var pairs = init.split('&');
+      var result = {};
+      pairs.forEach(function(pair) {
         pair = pair.split('=');
         result[pair[0]] = decodeURIComponent(pair[1] || '');
       });
-      return JSON.stringify('results' + result);
-      }
+    }
+    return JSON.stringify(result);
+    console.log(result);
+  }
       //Splitting up the slot sizes and names sent in GET
       var splitInit = queryStringToJSON();
       var splitInit = JSON.parse(splitInit);
