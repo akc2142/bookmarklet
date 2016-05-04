@@ -87,7 +87,7 @@
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
 
-      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> <a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div"> :<span style="color:#66CC00; font-weight: normal;">' + '</div><div id="psn_info"></div></div>');
+      var element = $('<div id="yb_box"> <span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"> theKRAKEN </span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> <a style="color: #66CC00!important; font-size: 12px; font-weight: normal;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> take me to Meow </a></div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots+ '</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">'+ splitSizes +'<div id="psn_info"></div></div>');
       // append it to the body:
       $('body').append(element);
       // style it:
@@ -105,12 +105,35 @@
         backgroundColor: 'rgba(25,0,51,.85)',
       });
       //var url = 'https://dev.yieldbot.com:443/v2/config/publisher/'+pub;
-    /*  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId%3A%20ffd8&format=json'
-        $.ajax({
-        url: url,
-        dataType: 'jsonp',
-        type: 'GET',
-      }); */
+    //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
+      var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
+      $.ajax({
+      url: url,
+      dataType: 'json',
+      crossDomain: true,
+      cache: true,
+      jsonpCallback: 'json',
+      jsonp: 'format',
+      type: 'GET',
+    })
+
+    .done(function(json) {
+  var config = {
+    "Display Name is ": json.display_name,
+    "CPM is ": json.cpm,
+    "Is ad serving enabled? ": json.ad_serving_enabled,
+    "Site URL is ": json.base_site,
+    "Is it mobile? ": json.is_mobile
+  };
+  var items = [];
+  $.each(config, function(key, val) {
+    items.push('<li id="info">' + key + ' ' + val + '</li>');
+  });
+  $('<ul/>', {
+    'id': 'pub_info',
+    html: items.join('')
+  }).appendTo('#psn_info');
+});
 
       var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
       $.getJSON(url, function(json) {
