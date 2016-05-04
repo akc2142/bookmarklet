@@ -46,26 +46,26 @@
         }
       //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
-      var dfp = $('script[src*="ads?"]').attr('src');
-      if (undefined !== dfp) {
+      var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src'); //doesn't work
+      if (null !== dfp) {
         dfpLoaded = 'loaded';
       } else {
         dfpLoaded = 'not loaded';
       }
+      if (undefined === init){
+        console.log('works for undefined init');
+      } else {
       //Parsing the script's GET parameters
       function queryStringToJSON() {
-    if (undefined === init) {
-      var result = 'updateState never loaded';
-    } else {
       var pairs = init.split('&');
       var result = {};
       pairs.forEach(function(pair) {
         pair = pair.split('=');
         result[pair[0]] = decodeURIComponent(pair[1] || '');
       });
-    }
-    return JSON.stringify(result);
-    console.log(result);
+      console.log(result);
+      return JSON.stringify(result);
+
   }
       //Splitting up the slot sizes and names sent in GET
       var splitInit = queryStringToJSON();
@@ -130,6 +130,7 @@
       }).appendTo('#psn_info');
       });
       console.log('it works! ');
+    }
     }();
   }
 })();
