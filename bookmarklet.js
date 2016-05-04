@@ -99,27 +99,31 @@
         fontSize: '16px',
         backgroundColor: 'rgba(25,0,51,.85)',
       });
-      var url = 'https://dev.yieldbot.com:443/v2/config/publisher/'+pub;
-      //CORS is now blocking me
-      /*  $.ajax({
+      //var url = 'https://dev.yieldbot.com:443/v2/config/publisher/'+pub;
+    /*  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId%3A%20ffd8&format=json'
+        $.ajax({
         url: url,
-        dataType: 'text',
+        dataType: 'jsonp',
         type: 'GET',
-      });
+      }); */
 
-       $.getJSON('https://dev.yieldbot.com:443/v2/config/publisher/'+pub,
-        function(json) {
-        var config = { "Display Name" : json.display_name,
-        "CPM" : json.cpm,
-        "Ad Serving Enabled" : json.ad_serving_enabled,
-        "Site URL" : json.base_site,
-        "Is Mobile?" : json.is_mobile
-          }
-        $.each(config, function(index, value){
-          dv = document.createElement('div');
-          $('#psn_info').append(dv);
-        });*/
-        });
+      var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId%3A%20ffd8&format=json'
+      $.getJSON(url, function(json) {
+        var config = { "Display Name is " : json.display_name,
+        "CPM is " : json.cpm,
+        "Is ad serving enabled? " : json.ad_serving_enabled,
+        "Site URL is " : json.base_site,
+        "Is it mobile? " : json.is_mobile
+      };
+        var items = [];
+        $.each(config, function(key, val) {
+        items.push( '<li id="info">' + key + ' ' + val + '</li>' );
+      });
+        $('<ul/>', {
+        'id': 'psn_info',
+        html: items.join('')
+      }).appendTo('#psn_info');
+      });
       console.log('it works! ');
     }();
   }
