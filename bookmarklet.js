@@ -107,7 +107,7 @@
         type: 'GET',
       }); */
 
-      var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId%3A%20ffd8&format=json'
+      var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
       $.getJSON(url, function(json) {
         var config = { "Display Name is " : json.display_name,
         "CPM is " : json.cpm,
