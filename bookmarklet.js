@@ -111,7 +111,7 @@
       });
       //var url = 'https://dev.yieldbot.com:443/v2/config/publisher/'+pub;
     //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
-      var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
+/*      var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
       $.ajax({
       url: url,
       dataType: 'json',
@@ -156,7 +156,7 @@
         'id': 'pub_info',
         html: items.join('')
       }).appendTo('#psn_info');
-      });
+    }); */
       console.log('it works! ');
     }
     }();
