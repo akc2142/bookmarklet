@@ -34,7 +34,7 @@
       else {
           pub = yieldbot.pub(); // Retrieve pub ID
           intentTag = 'loaded';
-          if (typeof yieldbot.go !== 'undefined') {
+          if (true === yieldbot._initialized) {
               ybGo = ' and activated';
           }
           // Check if async is enabled
@@ -46,6 +46,14 @@
         }
       //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
+      var initTimeout = yieldbot.getInitTimeout();
+      if (4000 <= initTimeout){
+        timeout = 'It took longer than 4sec to load :( ';
+      }
+      else {
+        timeout = 'and loaded in under 4sec';
+      }
+      var adAvailable = yieldbot.adAvailable();
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src'); //doesn't work
       if (null !== dfp) {
         dfpLoaded = 'loaded';
@@ -87,7 +95,7 @@
       var slotCriteria = yieldbot.getSlotCriteria();
       var pageCriteria = yieldbot.getPageCriteria();
 
-      var element = $('<div id="header"></div><div id="yb_box"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots+ '</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">'+ splitSizes +'<div id="psn_info"></div></div>');
+      var element = $('<div id="header"></div><div id="yb_box"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' + pvi + '</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' + asyncEnabled + '</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' + pub + '</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots+ '</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">'+ splitSizes +'<div id="psn_info"></div></div>');
       var header = $('<a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/'+pub+'"> Meow </a>');
       // append it to the body:
       $('body').append(element);
