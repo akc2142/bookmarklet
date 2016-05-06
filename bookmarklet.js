@@ -140,7 +140,7 @@ function execute() {
 
 
         $('body').append(element);
-        $('#header').append(header);
+    
 
         element.css({
           position: 'fixed',
