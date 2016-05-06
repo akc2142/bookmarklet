@@ -182,8 +182,8 @@ function execute() {
           dataType: 'jsonp',
           crossDomain: true,
           cache: true,
-          jsonpCallback: 'receive',
           jsonp: 'callback',
+          jsonpCallback: 'receive',
           type: 'GET',
           /*success: (function(json) {
             var config = {
