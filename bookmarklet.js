@@ -17,6 +17,21 @@ function execute() {
       html: items.join('')
     }).appendTo('#psn_info');
   }
+  function receivead(jsonads) {
+    console.log(jsonads);
+    var config = {
+      "Adslots name ": jsonads.name,
+      "Adslot sizes ": jsonads.dimensions,
+    };
+    var items = [];
+    $.each(config, function(key, val) {
+      items.push('<li id="info">' + key + ' ' + val + '</li>');
+    });
+    $('<ul/>', {
+      'id': 'pub_info',
+      html: items.join('')
+    }).appendTo('#psn_info');
+  }
   // the minimum version of jQuery we want
   var v = '1.3.2';
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
@@ -136,7 +151,7 @@ function execute() {
         }
 
         //creating the element on the page and styling
-        var element = $('<a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div><div id="yb_box"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad was  <span style="color:#66CC00; font-weight: normal;">'+ renderAd +'</div><div id="psn_info"></div></div>');
+        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad was  <span style="color:#66CC00; font-weight: normal;">'+ renderAd +'</div><div id="psn_info"></div></div>');
 
 
         $('body').append(element);
@@ -202,6 +217,31 @@ function execute() {
             }).appendTo('#psn_info');
           })
         });
+        $.ajax({
+          url: ad_url,
+          dataType: 'jsonp',
+          crossDomain: true,
+          cache: true,
+          jsonp: 'callback',
+          jsonpCallback: 'receiveads',
+          type: 'GET',
+          always: (function(jsonads) {
+            var config = {
+              "Adslots name ": jsonads.name,
+              "Adslot sizes ": jsonads.dimensions,
+            };
+            var items = [];
+            $.each(config, function(key, val) {
+              items.push('<li id="info">' + key + ' ' + val +
+                '</li>');
+            });
+            $('<ul/>', {
+              'id': 'pub_info',
+              html: items.join('')
+            }).appendTo('#psn_info');
+          })
+        });
+
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
       $.getJSON(url, function(json) {
