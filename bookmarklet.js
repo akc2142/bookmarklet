@@ -140,7 +140,7 @@ function execute() {
 
 
         $('body').append(element);
-    
+
 
         element.css({
           position: 'fixed',
