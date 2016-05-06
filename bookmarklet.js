@@ -108,12 +108,13 @@ function execute() {
         console.log(sizes + splitSizes);
         //To compare ^ to the system's slot names via API
 
-      /*  for (var key in p) {
-          if (p.hasOwnProperty(keys)) {
-            //console.log(values + " -> " + JSON.stringify(p[key]));
-            //console.log(key + " -> " + p[key]);
+        /*  for (var key in h) {
+          if (h.hasOwnProperty(keys)) {
+            //console.log(values + " -> " + JSON.stringify(h[key]));
+            //console.log(key + " -> " + h[key]);
           }
         } */
+        // checking if there's targeting fired on the page and if render ad is fired
         values = [];h = yieldbot._history;
         for(var i = 0, len = h.length; i < len; i++){
           values.push(h[i][0]);
@@ -130,18 +131,18 @@ function execute() {
           targeting = 'not set';
         }
         if (true === render) {
-          renderAd = 'was rendered';
+          renderAd = 'attempted to be rendered';
         } else {
-          renderAd = 'was not rendered';
+          renderAd = 'not attempted to be rendered';
         }
 
-        //console.log(slotNames);
+        //creating the element on the page and styling
         var element = $('<div id="header"></div><div id="yb_box"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad was  <span style="color:#66CC00; font-weight: normal;">'+ renderAd +'</div><div id="psn_info"></div></div>');
         var header = $('<a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a>');
-        // append it to the body:
+
         $('body').append(element);
         $('#header').append(header);
-        // style it:
+
         element.css({
           position: 'fixed',
           top: '0',
@@ -182,7 +183,7 @@ function execute() {
           crossDomain: true,
           cache: true,
           jsonpCallback: 'receive',
-          // jsonp: 'test',
+          jsonp: 'callback',
           type: 'GET',
           /*success: (function(json) {
             var config = {
@@ -226,3 +227,4 @@ function execute() {
     }();
   }
 }
+execute();
