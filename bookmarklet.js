@@ -1,4 +1,5 @@
 function receive(json) {
+  console.log(json);
   var config = {
     "Display Name is ": json.display_name,
     "CPM is ": json.cpm,
