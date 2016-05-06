@@ -5,7 +5,7 @@ function receive(json) {
     "CPM is ": json.cpm,
     "Is ad serving enabled? ": json.ad_serving_enabled,
     "Site URL is ": json.base_site,
-    "Is it mobile? ": json.is_mobile
+    "Is it mobile? ": json.is_mobile,
   };
   var items = [];
   $.each(config, function(key, val) {
@@ -45,12 +45,8 @@ function execute() {
         } */
       // Define all future variables in one step
       var asyncEnabled, ybGo, pairs;
-      var intentTagSrc = $(
-        'script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr(
-        'src');
-      var intentTagAsync = $(
-        'script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr(
-        'async');
+      var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
+      var intentTagAsync = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('async');
       if (undefined === intentTagSrc) {
         intentTag = 'not loaded. FATAL ERROR.';
       } else {
@@ -111,17 +107,36 @@ function execute() {
         var splitSizes = JSON.parse(sizes.split('|'));
         console.log(sizes + splitSizes);
         //To compare ^ to the system's slot names via API
-        p = yieldbot._history;
-        for (var key in p) {
-          if (p.hasOwnProperty(key)) {
-            console.log(key + " -> " + p[key]);
+
+      /*  for (var key in p) {
+          if (p.hasOwnProperty(keys)) {
+            //console.log(values + " -> " + JSON.stringify(p[key]));
+            //console.log(key + " -> " + p[key]);
           }
+        } */
+        values = [];h = yieldbot._history;
+        for(var i = 0, len = h.length; i < len; i++){
+          values.push(h[i][0]);
         }
+        // console.log(values);
+        var getPageCriteria = values.includes('yieldbot.getPageCriteria');
+        var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
+        var render = values.includes('yieldbot.renderAd');
+        if (true === getPageCriteria) {
+          targeting = 'set by getPageCriteria';
+        } else if (true === getSlotCriteria) {
+          targeting = 'set by getSlotCriteria';
+        }else {
+          targeting = 'not set';
+        }
+        if (true === render) {
+          renderAd = 'was rendered';
+        } else {
+          renderAd = 'was not rendered';
+        }
+
         //console.log(slotNames);
-        var render = yieldbot.renderAd;
-        var slotCriteria = yieldbot.getSlotCriteria();
-        var pageCriteria = yieldbot.getPageCriteria();
-        var element = $('<div id="header"></div><div id="yb_box"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><div class="yb_div"> Intent tag is: <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout +'</span></div><div class="yb_div"> PVI is: <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is: <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is: <span style="color:#66CC00; font-weight: normal;">' +pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '<div id="psn_info"></div></div>');
+        var element = $('<div id="header"></div><div id="yb_box"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad was  <span style="color:#66CC00; font-weight: normal;">'+ renderAd +'</div><div id="psn_info"></div></div>');
         var header = $('<a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a>');
         // append it to the body:
         $('body').append(element);
