@@ -176,9 +176,11 @@ function execute() {
   }); */
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
-        var url = 'https://dev.yieldbot.com/v2/config/publisher/'+pub;
+        var url = 'https://dev.yieldbot.com/v2/config/publisher/'
+        var pub_url = url+pub;
+        var ad_url = url+pub+/'adslot';
         $.ajax({
-          url: url,
+          url: pub_url,
           dataType: 'jsonp',
           crossDomain: true,
           cache: true,
