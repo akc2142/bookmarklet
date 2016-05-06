@@ -9,14 +9,13 @@ function receive(json) {
   };
   var items = [];
   $.each(config, function(key, val) {
-    items.push('<li id="info">' + key + ' ' + val +
-      '</li>');
+    items.push('<li id="info">' + key + ' ' + val + '</li>');
   });
   $('<ul/>', {
     'id': 'pub_info',
     html: items.join('')
   }).appendTo('#psn_info');
-})
+}
 
 function execute() {
   // the minimum version of jQuery we want
@@ -170,7 +169,7 @@ function execute() {
           jsonpCallback: 'receive',
           // jsonp: 'test',
           type: 'GET',
-          success: (function(saveData) {
+          /*success: (function(json) {
             var config = {
               "Display Name is ": json.display_name,
               "CPM is ": json.cpm,
@@ -187,7 +186,7 @@ function execute() {
               'id': 'pub_info',
               html: items.join('')
             }).appendTo('#psn_info');
-          })
+          })*/
         });
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
