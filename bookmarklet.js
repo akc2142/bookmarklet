@@ -1,23 +1,22 @@
-function receive(json) {
-  console.log(json);
-  var config = {
-    "Display Name is ": json.display_name,
-    "CPM is ": json.cpm,
-    "Is ad serving enabled? ": json.ad_serving_enabled,
-    "Site URL is ": json.base_site,
-    "Is it mobile? ": json.is_mobile,
-  };
-  var items = [];
-  $.each(config, function(key, val) {
-    items.push('<li id="info">' + key + ' ' + val + '</li>');
-  });
-  $('<ul/>', {
-    'id': 'pub_info',
-    html: items.join('')
-  }).appendTo('#psn_info');
-}
-
 function execute() {
+  function receive(json) {
+    console.log(json);
+    var config = {
+      "Display Name is ": json.display_name,
+      "CPM is ": json.cpm,
+      "Is ad serving enabled? ": json.ad_serving_enabled,
+      "Site URL is ": json.base_site,
+      "Is it mobile? ": json.is_mobile,
+    };
+    var items = [];
+    $.each(config, function(key, val) {
+      items.push('<li id="info">' + key + ' ' + val + '</li>');
+    });
+    $('<ul/>', {
+      'id': 'pub_info',
+      html: items.join('')
+    }).appendTo('#psn_info');
+  }
   // the minimum version of jQuery we want
   var v = '1.3.2';
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
@@ -75,7 +74,7 @@ function execute() {
       var dfp = $(
         'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
         'src'); //doesn't work
-      if (null !== dfp) {
+      if (undefined !== dfp) {
         dfpLoaded = 'loaded';
       } else {
         dfpLoaded = 'not loaded';
