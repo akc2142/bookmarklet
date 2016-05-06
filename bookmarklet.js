@@ -187,7 +187,7 @@ function execute() {
           jsonp: 'callback',
           jsonpCallback: 'receive',
           type: 'GET',
-          /*success: (function(json) {
+          always: (function(json) {
             var config = {
               "Display Name is ": json.display_name,
               "CPM is ": json.cpm,
@@ -204,7 +204,7 @@ function execute() {
               'id': 'pub_info',
               html: items.join('')
             }).appendTo('#psn_info');
-          })*/
+          })
         });
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
