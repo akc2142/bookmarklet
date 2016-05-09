@@ -17,9 +17,47 @@ function execute() {
   } else {
     releaseTheKraken();
   }
+  function receive(json) {
+    console.log(json);
+    var configPub = {
+      "Display Name is ": json.display_name,
+      "CPM is ": json.cpm,
+      "Is ad serving enabled? ": json.ad_serving_enabled,
+      "Site URL is ": json.base_site,
+      "Is it mobile? ": json.is_mobile,
+    };
+    var items = [];
+    $.each(configPub, function(key, val) {
+      items.push('<li id="info">' + key + ' ' + val + '</li>');
+    });
+    $('<ul/>', {
+      'id': 'pub_info',
+      html: items.join('')
+    }).appendTo('#psn_info');
+  }
+
+  function receivead(jsonads) {
+      console.log(jsonads);
+      var configAds = {
+        "Adslots name ": jsonads.name,
+        "Adslot sizes ": jsonads.dimensions,
+      };
+      var items = [];
+      $.each(configAds, function(key, val) {
+        items.push('<li id="info">' + key + ' ' + val + '</li>');
+      });
+      $('<ul/>', {
+        'id': 'pub_info',
+        html: items.join('')
+      }).appendTo('#psn_info');
+    }
+    receive();
+    receivead();
+    console.log('received');
 
   function releaseTheKraken() {
     window.theKraken = function() {
+
       // Stop automatic page reload
       /*  window.onbeforeunload = function() {
           return "Are you sure you want to leave? Think of the kittens!";
@@ -149,40 +187,7 @@ function execute() {
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
-        function receive(json) {
-          console.log(json);
-          var configPub = {
-            "Display Name is ": json.display_name,
-            "CPM is ": json.cpm,
-            "Is ad serving enabled? ": json.ad_serving_enabled,
-            "Site URL is ": json.base_site,
-            "Is it mobile? ": json.is_mobile,
-          };
-          var items = [];
-          $.each(configPub, function(key, val) {
-            items.push('<li id="info">' + key + ' ' + val + '</li>');
-          });
-          $('<ul/>', {
-            'id': 'pub_info',
-            html: items.join('')
-          }).appendTo('#psn_info');
-        }
 
-        function receivead(jsonads) {
-            console.log(jsonads);
-            var configAds = {
-              "Adslots name ": jsonads.name,
-              "Adslot sizes ": jsonads.dimensions,
-            };
-            var items = [];
-            $.each(configAds, function(key, val) {
-              items.push('<li id="info">' + key + ' ' + val + '</li>');
-            });
-            $('<ul/>', {
-              'id': 'pub_info',
-              html: items.join('')
-            }).appendTo('#psn_info');
-          }
         $.ajax({
           url: pubUrl,
           dataType: 'jsonp',
