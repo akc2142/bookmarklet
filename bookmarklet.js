@@ -86,12 +86,12 @@ function execute() {
         timeout = 'and loaded in under 4sec';
       }
       var adAvailable = yieldbot.adAvailable();
-      /* var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
+      var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
       if (undefined !== dfp) {
         dfpLoaded = 'loaded';
       } else {
-        dfpLoaded = 'not loaded';
-      } */
+        dfpLoaded = 'not loaded or is loaded in an iframe';
+      }
       if (undefined === init) {
         console.log('works for undefined init');
       } else {
