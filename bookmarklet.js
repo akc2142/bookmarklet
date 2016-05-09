@@ -51,9 +51,7 @@ function execute() {
         html: items.join('')
       }).appendTo('#psn_info');
     }
-    receive();
-    receivead();
-    console.log('received');
+
 
   function releaseTheKraken() {
     window.theKraken = function() {
@@ -184,6 +182,9 @@ function execute() {
   }); */
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
+        receive();
+        receivead();
+        console.log('received');
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
