@@ -60,12 +60,8 @@ function execute() {
         } */
       // Define all future variables in one step
       var asyncEnabled, ybGo, pairs;
-      var intentTagSrc = $(
-        'script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr(
-        'src');
-      var intentTagAsync = $(
-        'script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr(
-        'async');
+      var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
+      var intentTagAsync = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('async');
       if (undefined === intentTagSrc) {
         intentTag = 'not loaded. FATAL ERROR.';
       } else {
@@ -82,8 +78,7 @@ function execute() {
         }
       }
       //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
-      var init = $('script[src*="init?cb=yieldbot.updateState"]').attr(
-        'src');
+      var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
       var initTimeout = yieldbot.getInitTimeout();
       if (4000 <= initTimeout) {
         timeout = 'It took longer than 4sec to load :( ';
@@ -91,17 +86,12 @@ function execute() {
         timeout = 'and loaded in under 4sec';
       }
       var adAvailable = yieldbot.adAvailable();
-      var dfp = $(
-        'script[src^="https://securepubads.g.doubleclick.net/"]').getAttribute(
-        'src');
-      var dfp2 = $(
-        'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
-        'src');
+      /* var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
       if (undefined !== dfp) {
         dfpLoaded = 'loaded';
       } else {
         dfpLoaded = 'not loaded';
-      }
+      } */
       if (undefined === init) {
         console.log('works for undefined init');
       } else {
