@@ -1,4 +1,4 @@
-
+function execute() {
     // the minimum version of jQuery we want
   var v = '1.3.2';
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
@@ -256,3 +256,5 @@
       }
     }();
   }
+}
+execute();
