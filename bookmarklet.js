@@ -82,12 +82,7 @@ function execute() {
       //Checking to see if the YB init and DFP scripts are fired;
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
       //this isn't actually a timeout request; need to figure out how to get this number from the response
-      var initTimeout = yieldbot.getInitTimeout();
-      if (4000 <= initTimeout) {
-        timeout = 'It took longer than 4sec to load :( ';
-      } else {
-        timeout = 'and loaded in under 4sec';
-      }
+
       var adAvailable = yieldbot.adAvailable();
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
       if (undefined !== dfp) {
@@ -129,15 +124,29 @@ function execute() {
           }
         } */
         // checking if there's targeting fired on the page and if render ad is fired
-        values = [];
+
+        var values = [];
         h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
           values.push(h[i][0]);
         }
-        // console.log(values);
+         console.log(values);
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
-        var render = values.includes('yieldbot.renderAd');
+        var render = values.includes('cts_rend');
+        var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
+        var impression = values.includes('cts_imp');
+        var adOnPage = values.includes('cts_ad');
+        if (true === initTime) {
+          timeout = 'and took longer than 4sec to load; triggered resume() ';
+        } else {
+          timeout = 'and loaded in under 4sec';
+        }
+        if (true === impression){
+          adServed = 'and impression was recorded';
+        } else {
+          adServed = 'and impression was recorded';
+        }
         if (true === getPageCriteria) {
           targeting = 'set by getPageCriteria';
         } else if (true === getSlotCriteria) {
@@ -146,12 +155,12 @@ function execute() {
           targeting = 'not set';
         }
         if (true === render) {
-          renderAd = 'attempted to be rendered';
+          renderAd = 'available, rendered, ';
         } else {
-          renderAd = 'not attempted to be rendered';
+          renderAd = 'not available, not rendered, ';
         }
         //creating the element on the page and styling
-        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad was  <span style="color:#66CC00; font-weight: normal;">'+ renderAd +'</div><div id="psn_info"></div></div>');
+        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ renderAd + adOnPage +'</div><div id="psn_info"></div></div>');
         $('body').append(element);
         element.css({
           position: 'fixed',
@@ -188,7 +197,8 @@ function execute() {
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
 
-        $.ajax({
+//figre out how to handle appending
+    /*     $.ajax({
           url: pubUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -210,13 +220,14 @@ function execute() {
               pubItems.push('<ul id="info">' + key + ' ' + val +
                 '</ul>');
             });
+            console.log(pubItems);
             $('<div/>', {
               'id': 'pub_info',
               html: pubItems.join('')
-            });
+            }).appendTo('#psn_info');;
           })
         });
-      /*  $.ajax({
+       $.ajax({
           url: adUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -243,7 +254,7 @@ function execute() {
           })
         });
         $(adItems).appendTo('#psn_info'); */
-        $(pubItems).appendTo('#psn_info');
+
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
       $.getJSON(url, function(json) {
