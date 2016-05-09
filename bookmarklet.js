@@ -17,7 +17,7 @@ function execute() {
   } else {
     releaseTheKraken();
   }
-  function receive(json) {
+  /* function receive(json) {
     console.log(json);
     var configPub = {
       "Display Name is ": json.display_name,
@@ -51,7 +51,7 @@ function execute() {
         html: items.join('')
       }).appendTo('#psn_info');
     }
-
+ */
 
   function releaseTheKraken() {
     window.theKraken = function() {
@@ -182,8 +182,7 @@ function execute() {
   }); */
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
-        receive();
-        receivead();
+
         console.log('received');
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
@@ -197,7 +196,7 @@ function execute() {
           jsonpCallback: 'receive',
           type: 'GET',
           cache: true,
-          always: (function receive(json) {
+          success: (function receive(json) {
             var configPub = {
               "Display Name is ": json.display_name,
               "CPM is ": json.cpm,
@@ -205,15 +204,16 @@ function execute() {
               "Site URL is ": json.base_site,
               "Is it mobile? ": json.is_mobile
             };
-            var items = [];
+            console.log(json);
+            var pubItems = [];
             $.each(configPub, function(key, val) {
-              items.push('<li id="info">' + key + ' ' + val +
-                '</li>');
+              pubItems.push('<ul id="info">' + key + ' ' + val +
+                '</ul>');
             });
-            $('<ul/>', {
+            $('<div/>', {
               'id': 'pub_info',
               html: items.join('')
-            }).appendTo('#psn_info');
+            });
           })
         });
         $.ajax({
@@ -224,22 +224,24 @@ function execute() {
           jsonp: 'callback',
           jsonpCallback: 'receiveads',
           type: 'GET',
-          always: (function receiveads(jsonads) {
-            var configAds = {
+          success: (function receiveads(jsonads) {
+            configAds = {
               "Adslots name ": jsonads.name,
               "Adslot sizes ": jsonads.dimensions,
             };
-            var items = [];
+            adItems = [];
             $.each(configAds, function(key, val) {
-              items.push('<li id="info">' + key + ' ' + val +
-                '</li>');
+              adItems.push('<ul id="info">' + key + ' ' + val +
+                '</ul');
             });
-            $('<ul/>', {
-              'id': 'pub_info',
+            $('<div>', {
+              'id': 'ad_info',
               html: items.join('')
-            }).appendTo('#psn_info');
+            });
           })
         });
+        $(adItems).appendTo('#psn_info');
+        $(pubItems).appendTo('#psn_info');
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
       $.getJSON(url, function(json) {
