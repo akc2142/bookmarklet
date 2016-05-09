@@ -8,6 +8,7 @@ function execute() {
       "Site URL is ": json.base_site,
       "Is it mobile? ": json.is_mobile,
     };
+  }
     var items = [];
     $.each(config, function(key, val) {
       items.push('<li id="info">' + key + ' ' + val + '</li>');
@@ -86,9 +87,9 @@ function execute() {
         timeout = 'and loaded in under 4sec';
       }
       var adAvailable = yieldbot.adAvailable();
-      var dfp = $(
-        'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
-        'src'); //doesn't work
+      var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').getAttribute('src');
+      var dfp2 = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
+
       if (undefined !== dfp) {
         dfpLoaded = 'loaded';
       } else {
@@ -189,7 +190,7 @@ function execute() {
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pub_url = url+pub;
-        var ad_url = url+pub+'adslot';
+        var ad_url = url+pub+'/adslot';
         $.ajax({
           url: pub_url,
           dataType: 'jsonp',
@@ -264,5 +265,4 @@ function execute() {
       }
     }();
   }
-}
 execute();
