@@ -1,38 +1,4 @@
 function execute() {
-  function receive(json) {
-    console.log(json);
-    var configPub = {
-      "Display Name is ": json.display_name,
-      "CPM is ": json.cpm,
-      "Is ad serving enabled? ": json.ad_serving_enabled,
-      "Site URL is ": json.base_site,
-      "Is it mobile? ": json.is_mobile,
-    };
-    var items = [];
-    $.each(configPub, function(key, val) {
-      items.push('<li id="info">' + key + ' ' + val + '</li>');
-    });
-    $('<ul/>', {
-      'id': 'pub_info',
-      html: items.join('')
-    }).appendTo('#psn_info');
-  }
-
-  function receivead(jsonads) {
-      console.log(jsonads);
-      var configAds = {
-        "Adslots name ": jsonads.name,
-        "Adslot sizes ": jsonads.dimensions,
-      };
-      var items = [];
-      $.each(configAds, function(key, val) {
-        items.push('<li id="info">' + key + ' ' + val + '</li>');
-      });
-      $('<ul/>', {
-        'id': 'pub_info',
-        html: items.join('')
-      }).appendTo('#psn_info');
-    }
     // the minimum version of jQuery we want
   var v = '1.3.2';
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
@@ -77,8 +43,9 @@ function execute() {
           asyncEnabled = 'not enabled';
         }
       }
-      //Checking to see if the YB init and DFP scripts are fired; need to come back to DFP
+      //Checking to see if the YB init and DFP scripts are fired;
       var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
+      //this isn't actually a timeout request; need to figure out how to get this number from the response
       var initTimeout = yieldbot.getInitTimeout();
       if (4000 <= initTimeout) {
         timeout = 'It took longer than 4sec to load :( ';
@@ -182,14 +149,48 @@ function execute() {
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
+        function receive(json) {
+          console.log(json);
+          var configPub = {
+            "Display Name is ": json.display_name,
+            "CPM is ": json.cpm,
+            "Is ad serving enabled? ": json.ad_serving_enabled,
+            "Site URL is ": json.base_site,
+            "Is it mobile? ": json.is_mobile,
+          };
+          var items = [];
+          $.each(configPub, function(key, val) {
+            items.push('<li id="info">' + key + ' ' + val + '</li>');
+          });
+          $('<ul/>', {
+            'id': 'pub_info',
+            html: items.join('')
+          }).appendTo('#psn_info');
+        }
+
+        function receivead(jsonads) {
+            console.log(jsonads);
+            var configAds = {
+              "Adslots name ": jsonads.name,
+              "Adslot sizes ": jsonads.dimensions,
+            };
+            var items = [];
+            $.each(configAds, function(key, val) {
+              items.push('<li id="info">' + key + ' ' + val + '</li>');
+            });
+            $('<ul/>', {
+              'id': 'pub_info',
+              html: items.join('')
+            }).appendTo('#psn_info');
+          }
         $.ajax({
           url: pubUrl,
           dataType: 'jsonp',
           crossDomain: true,
-          cache: true,
           jsonp: 'callback',
           jsonpCallback: 'receive',
           type: 'GET',
+          cache: true,
           always: (function receive(json) {
             var configPub = {
               "Display Name is ": json.display_name,
