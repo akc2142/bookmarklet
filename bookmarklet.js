@@ -1,5 +1,5 @@
 function execute() {
-    // the minimum version of jQuery we want
+  // the minimum version of jQuery we want
   var v = '1.11.3';
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
     var done = false;
@@ -36,18 +36,17 @@ function execute() {
     }).appendTo('#psn_info');
   }
  */
-
   function releaseTheKraken() {
     window.theKraken = function() {
-
       // Stop automatic page reload
       /*  window.onbeforeunload = function() {
           return "Are you sure you want to leave? Think of the kittens!";
         } */
       // Define all future variables in one step
       var ybGo, pairs;
-      var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
-
+      var intentTagSrc = $(
+        'script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr(
+        'src');
       if (undefined === intentTagSrc) {
         intentTag = 'not loaded. FATAL ERROR.';
       } else {
@@ -64,25 +63,26 @@ function execute() {
         }
       }
       //Checking to see if the YB init and DFP scripts are fired;
-      var init = $('script[src*="init?cb=yieldbot.updateState"]').attr('src');
+      var init = $('script[src*="init?cb=yieldbot.updateState"]').attr(
+        'src');
       //this isn't actually a timeout request; need to figure out how to get this number from the response
-
       var adAvailable = yieldbot.adAvailable();
-      if ('n' == adAvailable){
-         adAvail = 'not available,';
-      } else if ('y' == adAvailable){
-       adAvail = 'available,';
+      if ('n' == adAvailable) {
+        adAvail = 'not available,';
+      } else if ('y' == adAvailable) {
+        adAvail = 'available,';
       }
-      var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
+      var dfp = $(
+        'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
+        'src');
       if (undefined !== dfp) {
-       dfpLoaded = 'loaded';
+        dfpLoaded = 'loaded';
       } else {
-         dfpLoaded = 'not loaded or is loaded in an iframe';
+        dfpLoaded = 'not loaded or is loaded in an iframe';
       }
       if (undefined === init) {
         console.log('works for undefined init');
       } else {
-
         //Parsing the script's GET parameters
         /* function queryStringToJSON() {
             var pairs = init.split('&');
@@ -115,51 +115,52 @@ function execute() {
           }
         } */
         // checking if there's targeting fired on the page and if render ad is fired
-
         var adSlots = [];
         var values = [];
         h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
           values.push(h[i][0]);
         }
-         console.log(values);
+        console.log(values);
         var slotsPage;
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
-        var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
+        var initTime = values.includes(
+          'init response took more than 4000ms to load, triggering resume()'
+        );
         var impression = values.indexOf('cts_imp');
         var updateReq = values.indexOf('yieldbot.updateState');
         var pvi = h[updateReq][2].pvi;
         var adOnPage = values.indexOf('cts_ad');
-
         if (-1 != updateReq) {
           updateS = h[updateReq][2].slots;
-          for (j=0; j < updateS.length; j++) {
+          for (j = 0; j < updateS.length; j++) {
             slots = JSON.stringify(updateS[j]);
             slots = slots.replace(/[({})(\")]/g, ' ');
             console.log(slots);
-            adSlots.push('<ul class="slot_info" style="padding:0;margin:0;">' + slots + '</ul>');
-
+            adSlots.push(
+              '<ul class="slot_info" style="padding:0;margin:0;">' +
+              slots + '</ul>');
           }
           adSlots = adSlots.join('');
         } else {
           updateS = 'updateState didn\'t return anything';
         }
-        if (-1 != adOnPage){
+        if (-1 != adOnPage) {
           adPushed = h[adOnPage];
           adPushed = adPushed[1];
           console.log(adPushed);
         } else {
-         adPushed = 'not served';
+          adPushed = 'not served';
         }
         if (true === initTime) {
           timeout = ' took longer than 4sec to load; triggered resume() ';
         } else {
           timeout = ' in under 4sec';
         }
-        if (-1 !== impression){
+        if (-1 !== impression) {
           adServed = ' and impression was recorded';
         } else {
           adServed = ' and impression was recorded';
@@ -177,7 +178,31 @@ function execute() {
           renderAd = ' not rendered, ';
         }
         //creating the element on the page and styling
-        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' + pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div> <div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' + adSlots +'</span></div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' + slotsPage + '</span></div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</span></div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adAvail + renderAd + adServed +'</span></div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">'+ dfpLoaded +'</span></div><div class="yb_div"> Ad is <span style="color:#66CC00; font-weight: normal;">'+ adPushed +'</span></div><div class="yb_div"> API is <span style="color:#66CC00; font-weight: normal;">'+ pubInfo +'</span></div><div id="psn_info"></div></div>');
+        var element = $(
+          '<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' +
+          pub +
+          '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' +
+          intentTag + ybGo + timeout +
+          '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +
+          pvi +
+          '</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +
+          asyncEnabled +
+          '</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' +
+          pub +
+          '</span> </div> <div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' +
+          adSlots +
+          '</span></div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' +
+          slotsPage +
+          '</span></div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">' +
+          targeting +
+          '</span></div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">' +
+          adAvail + renderAd + adServed +
+          '</span></div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">' +
+          dfpLoaded +
+          '</span></div><div class="yb_div"> Ad is <span style="color:#66CC00; font-weight: normal;">' +
+          adPushed +
+          '</span></div><div class="yb_div"> API is <span style="color:#66CC00; font-weight: normal;">' +
+           '</span></div><div id="psn_info"></div></div>');
         $('body').append(element);
         element.css({
           position: 'fixed',
@@ -208,14 +233,12 @@ function execute() {
   }); */
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
-
         console.log('received');
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
-
-//figre out how to handle appending
-         $.ajax({
+        //figre out how to handle appending
+        $.ajax({
           url: pubUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -234,11 +257,11 @@ function execute() {
             console.log(json);
             var pubItems = [];
             $.each(configPub, function(key, val) {
-              pubItems.push('<ul id="info">' + key + ' ' + val +
-                '</ul>');
+              pubItems.push('<ul id="info">' + key + ' ' +
+                val + '</ul>');
             });
             console.log(pubItems);
-          pubInfo =  $('<div/>', {
+            pubInfo = $('<div/>', {
               'id': 'pub_info',
               html: pubItems.join('')
             });
@@ -246,7 +269,7 @@ function execute() {
             console.log(pubInfo)
           })
         });
-      /* $.ajax({
+        /* $.ajax({
           url: adUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -273,7 +296,6 @@ function execute() {
           })
         });
         $(adItems).appendTo('#psn_info'); */
-
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
       $.getJSON(url, function(json) {
