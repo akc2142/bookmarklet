@@ -131,8 +131,8 @@ function execute() {
           }
         } */
         // checking if there's targeting fired on the page and if render ad is fired
-        var pvi = h[updateReq][2].pvi;
-        var slots = [];
+
+        var adSlots = [];
         var values = [];
         h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
@@ -146,14 +146,18 @@ function execute() {
         var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
         var impression = values.indexOf('cts_imp');
         var updateReq = values.indexOf('yieldbot.updateState');
+        var pvi = h[updateReq][2].pvi;
         var adOnPage = values.indexOf('cts_ad');
-
-        if (-1 != updateReq){
-          updateS = h[updateReq][2].slots;
-          for (var j = 0; j < updateS.length; j++){
-            slots.push(updateS[j]);
-            console.log();
-          }
+        var  adSlots = [];
+        if (-1 != updateReq) {
+          updateS = h[updateReq][2].slots[slots];
+          $.each(updateS, function(slot, cpm, size) {
+            adSlots.push('<ul id="info">' + slot + ' ' + cpm + ' '+ size + '</ul>');
+          });
+          $('<div/>', {
+            'id': 'slot_info',
+            html: adSlots.join('')
+          });
         } else {
           updateS = 'updateState didn\'t return anything';
         }
