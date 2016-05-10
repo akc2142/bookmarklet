@@ -139,6 +139,7 @@ function execute() {
           values.push(h[i][0]);
         }
          console.log(values);
+        var slotsPage;
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
@@ -151,6 +152,7 @@ function execute() {
           updateS = h[updateReq][2].slots;
           for (var j = 0; j < updateS.length; j++){
             slots.push(updateS[j]);
+            console.log();
           }
         } else {
           updateS = 'updateState didn\'t return anything';
@@ -185,7 +187,7 @@ function execute() {
           renderAd = ' not rendered, ';
         }
         //creating the element on the page and styling
-        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' +slots +'</div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' + slotsPage + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adAvail + renderAd + adServed +'</div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">'+ dfpLoaded +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adPushed +'</div><div id="psn_info"></div></div>');
+        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' + pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' + slots +'</div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' + slotsPage + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adAvail + renderAd + adServed +'</div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">'+ dfpLoaded +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adPushed +'</div><div id="psn_info"></div></div>');
         $('body').append(element);
         element.css({
           position: 'fixed',
