@@ -1,6 +1,6 @@
 function execute() {
     // the minimum version of jQuery we want
-  var v = '1.3.2';
+  var v = '1.11.3';
   if (window.jQuery === undefined || window.jQuery.fn.jquery < v) {
     var done = false;
     var script = document.createElement('script');
@@ -35,22 +35,6 @@ function execute() {
       html: items.join('')
     }).appendTo('#psn_info');
   }
-
-  function receivead(jsonads) {
-      console.log(jsonads);
-      var configAds = {
-        "Adslots name ": jsonads.name,
-        "Adslot sizes ": jsonads.dimensions,
-      };
-      var items = [];
-      $.each(configAds, function(key, val) {
-        items.push('<li id="info">' + key + ' ' + val + '</li>');
-      });
-      $('<ul/>', {
-        'id': 'pub_info',
-        html: items.join('')
-      }).appendTo('#psn_info');
-    }
  */
 
   function releaseTheKraken() {
@@ -63,7 +47,7 @@ function execute() {
       // Define all future variables in one step
       var asyncEnabled, ybGo, pairs;
       var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
-      var intentTagAsync = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('async');
+
       if (undefined === intentTagSrc) {
         intentTag = 'not loaded. FATAL ERROR.';
       } else {
@@ -140,6 +124,7 @@ function execute() {
         }
          console.log(values);
         var slotsPage;
+        var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
