@@ -17,7 +17,7 @@ function execute() {
   } else {
     releaseTheKraken();
   }
-  /* function receive(json) {
+  /*function receive(json) {
     console.log(json);
     var configPub = {
       "Display Name is ": json.display_name,
@@ -45,7 +45,7 @@ function execute() {
           return "Are you sure you want to leave? Think of the kittens!";
         } */
       // Define all future variables in one step
-      var asyncEnabled, ybGo, pairs;
+      var ybGo, pairs;
       var intentTagSrc = $('script[src*="//cdn.yldbt.com/js/yieldbot.intent.js"]').attr('src');
 
       if (undefined === intentTagSrc) {
@@ -133,16 +133,17 @@ function execute() {
         var updateReq = values.indexOf('yieldbot.updateState');
         var pvi = h[updateReq][2].pvi;
         var adOnPage = values.indexOf('cts_ad');
-        var  adSlots = [];
+
         if (-1 != updateReq) {
-          updateS = h[updateReq][2].slots[slots];
-          $.each(updateS, function(slot, cpm, size) {
-            adSlots.push('<ul id="info">' + slot + ' ' + cpm + ' '+ size + '</ul>');
-          });
-          $('<div/>', {
-            'id': 'slot_info',
-            html: adSlots.join('')
-          });
+          updateS = h[updateReq][2].slots;
+          for (j=0; j < updateS.length; j++) {
+            slots = JSON.stringify(updateS[j]);
+            slots = slots.replace(/[({})(\")]/g, ' ');
+            console.log(slots);
+            adSlots.push('<ul class="slot_info" style="padding:0;margin:0;">' + slots + '</ul>');
+
+          }
+          adSlots = adSlots.join('');
         } else {
           updateS = 'updateState didn\'t return anything';
         }
@@ -154,9 +155,9 @@ function execute() {
          adPushed = 'not served';
         }
         if (true === initTime) {
-          timeout = ' and took longer than 4sec to load; triggered resume() ';
+          timeout = ' took longer than 4sec to load; triggered resume() ';
         } else {
-          timeout = ' and loaded in under 4sec';
+          timeout = ' in under 4sec';
         }
         if (-1 !== impression){
           adServed = ' and impression was recorded';
@@ -176,7 +177,7 @@ function execute() {
           renderAd = ' not rendered, ';
         }
         //creating the element on the page and styling
-        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' + pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' + slots +'</div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' + slotsPage + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adAvail + renderAd + adServed +'</div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">'+ dfpLoaded +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adPushed +'</div><div id="psn_info"></div></div>');
+        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' + pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div> <div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' + adSlots +'</span></div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' + slotsPage + '</span></div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</span></div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adAvail + renderAd + adServed +'</span></div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">'+ dfpLoaded +'</span></div><div class="yb_div"> Ad is <span style="color:#66CC00; font-weight: normal;">'+ adPushed +'</span></div><div class="yb_div"> API is <span style="color:#66CC00; font-weight: normal;">'+ pubInfo +'</span></div><div id="psn_info"></div></div>');
         $('body').append(element);
         element.css({
           position: 'fixed',
@@ -214,7 +215,7 @@ function execute() {
         var adUrl = url + pub + '/adslot';
 
 //figre out how to handle appending
-    /*     $.ajax({
+         $.ajax({
           url: pubUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -237,13 +238,15 @@ function execute() {
                 '</ul>');
             });
             console.log(pubItems);
-            $('<div/>', {
+          pubInfo =  $('<div/>', {
               'id': 'pub_info',
               html: pubItems.join('')
-            }).appendTo('#psn_info');;
+            });
+            $(pubInfo).append('#psn_info');
+            console.log(pubInfo)
           })
         });
-       $.ajax({
+      /* $.ajax({
           url: adUrl,
           dataType: 'jsonp',
           crossDomain: true,
