@@ -84,17 +84,23 @@ function execute() {
       //this isn't actually a timeout request; need to figure out how to get this number from the response
 
       var adAvailable = yieldbot.adAvailable();
+      if ('n' == adAvailable){
+         adAvail = 'not available,';
+      } else if ('y' == adAvailable){
+       adAvail = 'available,';
+      }
       var dfp = $('script[src^="https://securepubads.g.doubleclick.net/"]').attr('src');
       if (undefined !== dfp) {
-        dfpLoaded = 'loaded';
+       dfpLoaded = 'loaded';
       } else {
-        dfpLoaded = 'not loaded or is loaded in an iframe';
+         dfpLoaded = 'not loaded or is loaded in an iframe';
       }
       if (undefined === init) {
         console.log('works for undefined init');
       } else {
+
         //Parsing the script's GET parameters
-        function queryStringToJSON() {
+        /* function queryStringToJSON() {
             var pairs = init.split('&');
             var result = {};
             pairs.forEach(function(pair) {
@@ -115,7 +121,8 @@ function execute() {
         console.log('split slots' + splitSlots);
         var sizes = JSON.stringify(splitInit.ssz);
         var splitSizes = JSON.parse(sizes.split('|'));
-        console.log(sizes + splitSizes);
+        console.log(sizes + splitSizes); *
+
         //To compare ^ to the system's slot names via API
         /*  for (var key in h) {
           if (h.hasOwnProperty(keys)) {
@@ -124,7 +131,8 @@ function execute() {
           }
         } */
         // checking if there's targeting fired on the page and if render ad is fired
-
+        var pvi = h[updateReq][2].pvi;
+        var slots = [];
         var values = [];
         h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
@@ -135,17 +143,34 @@ function execute() {
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
         var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
-        var impression = values.includes('cts_imp');
-        var adOnPage = values.includes('cts_ad');
-        if (true === initTime) {
-          timeout = 'and took longer than 4sec to load; triggered resume() ';
+        var impression = values.indexOf('cts_imp');
+        var updateReq = values.indexOf('yieldbot.updateState');
+        var adOnPage = values.indexOf('cts_ad');
+
+        if (-1 != updateReq){
+          updateS = h[updateReq][2].slots;
+          for (var j = 0; j < updateS.length; j++){
+            slots.push(updateS[j]);
+          }
         } else {
-          timeout = 'and loaded in under 4sec';
+          updateS = 'updateState didn\'t return anything';
         }
-        if (true === impression){
-          adServed = 'and impression was recorded';
+        if (-1 != adOnPage){
+          adPushed = h[adOnPage];
+          adPushed = adPushed[1];
+          console.log(adPushed);
         } else {
-          adServed = 'and impression was recorded';
+         adPushed = 'not served';
+        }
+        if (true === initTime) {
+          timeout = ' and took longer than 4sec to load; triggered resume() ';
+        } else {
+          timeout = ' and loaded in under 4sec';
+        }
+        if (-1 !== impression){
+          adServed = ' and impression was recorded';
+        } else {
+          adServed = ' and impression was recorded';
         }
         if (true === getPageCriteria) {
           targeting = 'set by getPageCriteria';
@@ -155,19 +180,19 @@ function execute() {
           targeting = 'not set';
         }
         if (true === render) {
-          renderAd = 'available, rendered, ';
+          renderAd = ' rendered, ';
         } else {
-          renderAd = 'not available, not rendered, ';
+          renderAd = ' not rendered, ';
         }
         //creating the element on the page and styling
-        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slot names defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSlots +'</div><div class="yb_div"> Slot sizes defined on the page: <span style="color:#66CC00; font-weight: normal;">' +splitSizes + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ renderAd + adOnPage +'</div><div id="psn_info"></div></div>');
+        var element = $('<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" href="https://ui.yieldbot.com/ui/meow/publisher/' + pub + '"> Meow </a></div> <div class="yb_div"> Intent tag is <span style="color:#66CC00; font-weight: normal;">' + intentTag + ybGo + timeout + '</span></div><div class="yb_div"> PVI is  <span style="color:#66CC00; font-weight: normal;">' +pvi +'</span></div> <div class="yb_div"> Async is  <span style="color:#66CC00; font-weight: normal;">' +asyncEnabled +'</span></div><div class="yb_div"> Pub ID is  <span style="color:#66CC00; font-weight: normal;">' + pub +'</span> </div><div class="yb_div"> Slots we\'re bidding on: <span style="color:#66CC00; font-weight: normal;">' +slots +'</div><div class="yb_div"> Slots on the page: <span style="color:#66CC00; font-weight: normal;">' + slotsPage + '</div><div class="yb_div"> Targeting is  <span style="color:#66CC00; font-weight: normal;">'+ targeting +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adAvail + renderAd + adServed +'</div><div class="yb_div"> DFP is  <span style="color:#66CC00; font-weight: normal;">'+ dfpLoaded +'</div><div class="yb_div"> Ad is  <span style="color:#66CC00; font-weight: normal;">'+ adPushed +'</div><div id="psn_info"></div></div>');
         $('body').append(element);
         element.css({
           position: 'fixed',
           top: '0',
           right: '0',
           width: '500px',
-          height: '400px',
+          height: 'auto',
           color: 'white',
           padding: '0 0 0 3%',
           fontWeight: 'bold',
