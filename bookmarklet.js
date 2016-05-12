@@ -82,43 +82,31 @@ function execute() {
           }
         } */
         // running through all of the history data stored
+        var slotsPage = [];
+        var matchSlotsPage = [];
         var adSlots = [];
         var values = [];
+        var slotIndex = [];
         h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
           values.push(h[i][0]);
         }
         console.log(values);
-        var slotsPage = values.indexOf('yieldbot.defineSlot');
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
-
-        var index, value, result;
-        for (index = 0; index < values.length; ++index) {
-          value = values[index];
-          if (value.substring(0, 8) === 'init took') {
-        // You've found it, the full text is in `value`.
-        // So you might grab it and break the loop, although
-        // really what you do having found it depends on
-        // what you need.
-        result = value;
-        console.log(result);
-        break;
-          }
-        }
         var impression = values.indexOf('cts_imp');
         var updateReq = values.indexOf('yieldbot.updateState');
         var adOnPage = values.indexOf('cts_ad');
         var adAvailable = yieldbot.adAvailable();
         if (-1 != impression){
-          requestId = 'is <span style="font-weight: normal; color: #66CC000;"> ' + h[impression][1];
+          requestId = 'is <span style="font-weight: normal; color: #66CC00;"> ' + h[impression][1];
         } else {
           requestId = '<span style="font-weight: normal; color: orange;"> was not sent';
         }
         if ('n' == adAvailable) {
-          adAvail = '<span style="font-weight: normal; color: red;"> not available (this is totally cool if you\'re using the testing tool), </span>';
+          adAvail = '<span style="font-weight: normal; color: red;"> not available <span style="font-weight: normal; color:#66CC00;"> (this is totally cool if you\'re using the testing tool)</span>, </span>';
         } else if ('y' == adAvailable) {
           adAvail = '<span style="font-weight: normal; color:#66CC00 ;"> available, </span>';
         }
@@ -127,13 +115,30 @@ function execute() {
         } else {
           asyncEnabled = '<span style="font-weight: normal; color:red ;"> not enabled';
         }
+        for (var l = 0; l < h.length; l++) {
+          if (h[l][0] === 'yieldbot.defineSlot') {
+            slotIndex.push(l);
+          }
+        }
+        for (var m=0; m < slotIndex.length; m++) {
+          index = h[slotIndex[m]][2];
+          slotsPage.push(index);
+        }
         if (-1 != updateReq) {
           pvi = '<span style="font-weight:normal; color: #66CC00;">' + h[updateReq][2].pvi;
           updateS = h[updateReq][2].slots;
+          console.log('update' + updateS);
+          for (a = 0; a < updateS.length; a++) {
+            ad_slots = updateS[a].slot;
+            matchSlotsPage.push(ad_slots);
+
+          }
+          console.log('match ' + matchSlotsPage);
+
           for (j = 0; j < updateS.length; j++) {
             slots = JSON.stringify(updateS[j]);
             slots = slots.replace(/[({})(\")]/g, ' ');
-            console.log(slots);
+            // console.log(slots);
             adSlots.push(
               '<ul class="slot_info" style="padding:0;margin:0; color: #66CC00; font-weight: normal;">' +
               slots + '</ul>');
@@ -159,12 +164,12 @@ function execute() {
         if (-1 != impression) {
           adServed = ' <span style="font-weight:normal; color: #66CC00;"> and impression was recorded </span>';
         } else {
-          adServed = ' <span style="font-weight:normal; color: orange;"> and impression was not recorded </span>';
+          adServed = ' <span style="font-weight:normal; color: red;"> and impression was not recorded </span>';
         }
         if (true === getPageCriteria) {
           targeting = '<span style=" color: #66CC00;font-weight:normal;"> set by getPageCriteria - good to go for targeting!';
         } else if (true === getSlotCriteria) {
-          targeting = '<span style="font-weight:normal color: #66CC00;"> set by getSlotCriteria - good to go for targeting!';
+          targeting = '<span style="font-weight:normal; color: #66CC00;"> set by getSlotCriteria - good to go for targeting!';
         } else {
           targeting = '<span style="color: red; font-weight:normal; "> not set - this is a fatal error; please have the client fix it :(';
         }
@@ -186,10 +191,8 @@ function execute() {
           asyncEnabled +
           '</span></div><div class="yb_div"> Pub ID is  <span style="font-weight: normal; color:#66CC00 ;"> ' +
           pub +
-          '</span> <span id="display_name" style="color:orange;font-weight:normal;">should be </span></div> <div class="yb_div"> Slots we\'re trying to bid on (in Meow) : ' +
+          '</span> <span id="display_name" style="color:orange;font-weight:normal;">should be </span></div> <div class="yb_div"> Slots (in Meow) we\'re trying to bid on : ' +
           adSlots +
-          '</span></div><div class="yb_div"> Slots on the page: ' +
-          slotsPage +
           '</span></div><div class="yb_div"> Targeting is ' +
           targeting +
           '</span></div><div class="yb_div"> Ad is' +
@@ -208,7 +211,7 @@ function execute() {
           width: '500px',
           height: 'auto',
           color: 'white',
-          padding: '0 0 0 3%',
+          padding: '0 0.5% 2% 3%',
           fontWeight: 'bold',
           zIndex: '999999',
           fontSize: '16px',
@@ -217,7 +220,7 @@ function execute() {
 
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
-        console.log('received');
+        //console.log('received');
         var url = 'https://dev.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
