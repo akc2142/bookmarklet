@@ -104,6 +104,7 @@ function execute() {
           values.push(h[i][0]);
         }
         console.log(values);
+        var initTook = '<span style="color:red;"> but ' + JSON.stringify(values).match(/init took \d+ms/g);
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var params = values.includes('yieldbot.params');
@@ -201,12 +202,12 @@ function execute() {
           adPushed =
             '<span style="font-weight:normal; color: orange;"> was not requested ';
         }
-        if (true === initTime) {
+        /* if (true === initTime) {
           timeout =
             ' <span style="color:red;"> and it took longer than 4sec to load so it timed out </span>';
         } else {
           timeout = ' in under 4sec';
-        }
+        } */
         if (-1 !== impression) {
           adServed =
             ' <span style="font-weight:normal; color: #66CC00;"> and impression was recorded - good to go! </span>';
@@ -236,7 +237,7 @@ function execute() {
           '<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
           pub +
           '"> Meow         </a> <a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="http://i.yldbt.com/m/start-testing"> Testing Tool </a></div> <div class="yb_div"> Intent tag is ' +
-          intentTag + ybGo + timeout +
+          intentTag + ybGo + initTook +
           '</span></div><div class="yb_div"> Pub ID is  <span style="font-weight: normal; color:#66CC00 ;"> ' +
           pub +
           '<span id="display_name" style="color:orange;font-weight:normal;z-index:999999;"> should be </span></div><div class="yb_div"> Slots we\'re trying to bid on: ' +
