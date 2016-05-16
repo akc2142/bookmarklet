@@ -96,7 +96,7 @@ function execute() {
         var matchSlotsPage = [];
         var adSlots = [];
         var values = [];
-        var slotIndex = [];a
+        var slotIndex = [];
         var rendIndex = [];
         var rendPage = [];
         h = yieldbot._history;
