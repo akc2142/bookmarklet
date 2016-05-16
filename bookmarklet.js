@@ -96,7 +96,7 @@ function execute() {
         var matchSlotsPage = [];
         var adSlots = [];
         var values = [];
-        var slotIndex = [];
+        var slotIndex = [];a
         var rendIndex = [];
         var rendPage = [];
         h = yieldbot._history;
@@ -104,7 +104,7 @@ function execute() {
           values.push(h[i][0]);
         }
         console.log(values);
-        var initTook = '<span style="color:red;"> but ' + JSON.stringify(values).match(/init took \d+ms/g);
+        var initTk = JSON.stringify(values).match(/init took \d+ms/g);
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var params = values.includes('yieldbot.params');
@@ -115,6 +115,12 @@ function execute() {
         var adOnPage = values.includes('cts_ad');
         var adAvailable = yieldbot.adAvailable();
         var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
+        if (null !== initTk) {
+          initTook = '<span style="color:red;"> but ' + initTk;
+        }
+        else {
+          initTook = '<span style="color:green;">';
+        }
         if (-1 !== impression) {
           requestId =
             'is <span style="font-weight: normal; color: #66CC00;"> ' + h[
