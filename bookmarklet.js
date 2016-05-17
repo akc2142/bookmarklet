@@ -71,13 +71,7 @@ function execute() {
       var dfp = jQuery(
         'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
         'src');
-      if (undefined !== dfp) {
-        dfpLoaded =
-          '<span style="font-weight:normal;color: #66CC00;">loaded';
-      } else {
-        dfpLoaded =
-          '<span style="font-weight:normal;color: red;">not loaded or is loaded in an iframe';
-      }
+
       // if init's undefined, don't continue
       if (undefined === init) {
         console.log('works for undefined init'); //better description here
@@ -250,8 +244,7 @@ function execute() {
           '</span></div><div class="yb_div"> Slots defined on the page: <span style="font-weight:normal; color: #66CC00;">' +
           slotsPage +
           '</span> </div><div class="yb_div"> Targeting is ' +
-          targeting + '</span> </div> <div class="yb_div"> DFP is ' +
-          dfpLoaded +
+          targeting + '</span> </div> <div class="yb_div">' +
           '</span></div> <div id="yb_div"> <span id="ad_serving" style="font-weight:normal;color:orange;"> </span> </div> <div id="yb_div"> <span id="is_mobile" style="font-weight:normal;color:orange;"> </span></div></div>'
         );
         jQuery('body').append(element);
