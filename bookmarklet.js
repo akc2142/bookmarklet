@@ -13,7 +13,6 @@ function execute() {
         releaseTheKraken();
       }
     };
-    var jQuery = $;
     document.getElementsByTagName('head')[0].appendChild(script);
   } else {
     releaseTheKraken();
@@ -33,13 +32,13 @@ function execute() {
       });
       var ybGo, pairs, html, requestId, pvi;
       // Is intent tag present
-      var intentTagSrc = $('script[src*="/js/yieldbot.intent.js"]').attr(
+      var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]').attr(
         'src');
       if (undefined == intentTagSrc) {
-        var noGo = $(
+        var noGo = jQuery(
           '<div class="no_box"><div class="header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>The intent tag is <span style="color:red;font-weight: normal;"> not loaded or is loaded in an iframe. Incorrect implementation.</span></div></div>'
         );
-        $('body').append(noGo);
+        jQuery('body').append(noGo);
         noGo.css({
           position: 'fixed',
           top: '0',
@@ -66,10 +65,10 @@ function execute() {
         }
       }
       //Checking to see if the YB init and DFP scripts are fired;
-      var init = $('script[src*="init?cb=yieldbot.updateState"]').attr(
+      var init = jQuery('script[src*="init?cb=yieldbot.updateState"]').attr(
         'src');
       //this isn't actually a timeout request; need to figure out how to get this number from the response
-      var dfp = $(
+      var dfp = jQuery(
         'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
         'src');
       if (undefined !== dfp) {
@@ -180,7 +179,7 @@ function execute() {
             '<span style="font-weight: normal; color: red;"> undefined';
         }
         /*  var isSameSet = function(arr1, arr2){
-          return  $(arr1).not(arr2).length === 0 && $(arr2).not(arr1).length === 0;
+          return  jQuery(arr1).not(arr2).length === 0 && jQuery(arr2).not(arr1).length === 0;
         }
         var resultMatch = isSameSet(slotsPage, matchSlotsPage);
         console.log(resultMatch);
@@ -239,7 +238,7 @@ function execute() {
             ' <span style="color: red; font-weight: normal; "> not rendered (something is wrong if you\'re using the testing tool), </span>';
         }
         //creating the element on the page and styling
-        var element = $(
+        var element = jQuery(
           '<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
           pub +
           '"> Meow         </a> <a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="http://i.yldbt.com/m/start-testing"> Testing Tool </a></div> <div class="yb_div"> Intent tag is ' +
@@ -255,7 +254,7 @@ function execute() {
           dfpLoaded +
           '</span></div> <div id="yb_div"> <span id="ad_serving" style="font-weight:normal;color:orange;"> </span> </div> <div id="yb_div"> <span id="is_mobile" style="font-weight:normal;color:orange;"> </span></div></div>'
         );
-        $('body').append(element);
+        jQuery('body').append(element);
         element.css({
           position: 'fixed',
           top: '0',
@@ -276,7 +275,7 @@ function execute() {
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
         //figre out how to handle appending
-        $.ajax({
+        jQuery.ajax({
           url: pubUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -309,13 +308,13 @@ function execute() {
             mobile =
               '<span style="font-weight:bold;color:white;">Mobile? </span>' +
               configPub[2];
-            $("#display_name").append(displayName);
-            $("#ad_serving").append(adServing);
-            $("#is_mobile").append(mobile);
+            jQuery("#display_name").append(displayName);
+            jQuery("#ad_serving").append(adServing);
+            jQuery("#is_mobile").append(mobile);
             // console.log(html);
           })
         });
-        /* $.ajax({
+        /* jQuery.ajax({
           url: adUrl,
           dataType: 'jsonp',
           crossDomain: true,
@@ -331,20 +330,20 @@ function execute() {
             };
             console.log(jsonads);
             var adItems = [];
-            $.each(configAds, function(key, val) {
+            jQuery.each(configAds, function(key, val) {
               adItems.push('<ul id="info">' + key + ' ' + val +
                 '</ul');
             });
-            $('<div>', {
+            jQuery('<div>', {
               'id': 'ad_info',
               html: adItems.join('')
             });
           })
         });
-        $(adItems).appendTo('#psn_info'); */
+        jQuery(adItems).appendTo('#psn_info'); */
         // Not CORS-friendly (deprecated)
         /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
-      $.getJSON(url, function(json) {
+      jQuery.getJSON(url, function(json) {
         var config = { "Display Name is " : json.display_name,
         "CPM is " : json.cpm,
         "Is ad serving enabled? " : json.ad_serving_enabled,
@@ -352,10 +351,10 @@ function execute() {
         "Is it mobile? " : json.is_mobile
       };
         var items = [];
-        $.each(config, function(key, val) {
+        jQuery.each(config, function(key, val) {
         items.push( '<li id="info">' + key + ' ' + val + '</li>' );
       });
-        $('<ul/>', {
+        jQuery('<ul/>', {
         'id': 'pub_info',
         html: items.join('')
       }).appendTo('#psn_info');
