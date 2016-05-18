@@ -36,7 +36,7 @@ function execute() {
         'src');
       if (undefined == intentTagSrc) {
         var noGo = jQuery(
-          '<div class="no_box"><div class="header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>The intent tag is <span style="color:red;font-weight: normal;"> not loaded or is loaded in an iframe. Incorrect implementation.</span></div></div>'
+          '<div class="no_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>The intent tag is <span style="color:red;font-weight: normal;"> not loaded or is loaded in an iframe. Incorrect implementation.</span></div></div>'
         );
         jQuery('body').append(noGo);
         noGo.css({
@@ -92,14 +92,18 @@ function execute() {
         var slotIndex = [];
         var rendIndex = [];
         var rendPage = [];
+        var dfpValues = [];
+        dh = googletag.pubads().$[0].aa
         h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
           values.push(h[i][0]);
         }
+
         console.log(values);
         var initTk = JSON.stringify(values).match(/init took \d+ms/g);
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
+        var setSlotTargeting = values.includes('yieldbot.setSlotTargeting');
         var params = values.includes('yieldbot.params');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
@@ -215,8 +219,8 @@ function execute() {
             ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
         }
         if (true === getPageCriteria || true === getSlotCriteria || true ===
-          params) {
-          if (updateReq < values.indexOf('yieldbot.getPageCriteria') || values.indexOf('getSlotCriteria') || values.indexOf('yieldbot.params')) {
+          params || true === setSlotTargeting) {
+          if (updateReq < values.indexOf('yieldbot.getPageCriteria') || values.indexOf('getSlotCriteria') || values.indexOf('yieldbot.params') || values.indexOf('yieldbot.setSlotTargeting')) {
             targeting =
               '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
           }
@@ -233,7 +237,7 @@ function execute() {
         }
         //creating the element on the page and styling
         var element = jQuery(
-          '<div id="yb_box"><div class="header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
+          '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
           pub +
           '"> Meow         </a> <a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="http://i.yldbt.com/m/start-testing"> Testing Tool </a></div> <div class="yb_div"> Intent tag is ' +
           intentTag + ybGo + initTook +
