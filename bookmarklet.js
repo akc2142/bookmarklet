@@ -67,11 +67,6 @@ function execute() {
       //Checking to see if the YB init and DFP scripts are fired;
       var init = jQuery('script[src*="init?cb=yieldbot.updateState"]').attr(
         'src');
-      //this isn't actually a timeout request; need to figure out how to get this number from the response
-      var dfp = jQuery(
-        'script[src^="https://securepubads.g.doubleclick.net/"]').attr(
-        'src');
-
       // if init's undefined, don't continue
       if (undefined === init) {
         console.log('works for undefined init'); //better description here
@@ -110,8 +105,9 @@ function execute() {
         var updateReq = values.indexOf('yieldbot.updateState');
         var adOnPage = values.includes('cts_ad');
         var adAvailable = yieldbot.adAvailable();
-        var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
-        if (undefined !== googletag.service_manager_instance.j.publisher_ads.D.ybot) {
+        var dfp = googletag.service_manager_instance.j.publisher_ads.D.ybot;
+        // var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
+        if (undefined !== dfp) {
           dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
         } else if (undefined === googletag.service_manager_instance.j.publisher_ads.D.ybot) {
         var dfpValues = googletag.slot_manager_instance.l;
@@ -122,13 +118,12 @@ function execute() {
         if (obj.ybot_ad == 'y') {
         dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
         }
-      } }
-      else {
+      } } else  {
         dfpSlots = 'no info found';
       }
 
         if (null !== initTk) {
-          initTook = '<span style="color:red;"> but ' + initTk;
+          initTook = '<span style="color:red;"> but ' + initTk + 'seconds';
         }
         else {
           initTook = '<span style="color:green;">';
@@ -266,24 +261,11 @@ function execute() {
           targeting + '</span> </div> <div class="yb_div">' +
           '</span></div> <div id="yb_div"> <span id="ad_serving" style="font-weight:normal;color:orange;"> </span> </div> <div id="yb_div"> <span id="is_mobile" style="font-weight:normal;color:orange;"> </span></div></div>'
         );
-        jQuery('body').append(element);
-        element.css({
-          position: 'fixed',
-          top: '0',
-          right: '0',
-          width: '500px',
-          height: 'auto',
-          color: 'white',
-          padding: '0 0.5% 2% 3%',
-          fontWeight: 'bold',
-          zIndex: '999999',
-          fontSize: '16px',
-          backgroundColor: 'rgba(25,0,51,.85)',
-        });
+
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
         //console.log('received');
-        var url = 'https://dev.yieldbot.com/v2/config/publisher/'
+        var url = 'https://ui.yieldbot.com/v2/config/publisher/'
         var pubUrl = url + pub;
         var adUrl = url + pub + '/adslot';
         //figre out how to handle appending
@@ -300,18 +282,6 @@ function execute() {
               json.ad_serving_enabled,
               json.is_mobile
             ];
-            /*  pubItems = [];
-            console.log(configPub);
-            for (var key in configPub) {
-              pubItems.push(key);
-            }
-            // pubItems.sort();
-             for (var k = 0; k < pubItems.length; k++) {
-              var key = pubItems[k];
-              var pub = JSON.stringify(configPub[key]);
-              console.log(key + pub);
-              html += '<ul style="font-size: 15px; color: orange; font-weight: normal;"> ' + key + ' ' + pub +' </ul>';
-            } */
             console.log(configPub);
             displayName = configPub[0];
             adServing =
@@ -320,58 +290,26 @@ function execute() {
             mobile =
               '<span style="font-weight:bold;color:white;">Mobile? </span>' +
               configPub[2];
+              jQuery('body').append(element);
+              element.css({
+                position: 'fixed',
+                top: '0',
+                right: '0',
+                width: '500px',
+                height: 'auto',
+                color: 'white',
+                padding: '0 0.5% 2% 3%',
+                fontWeight: 'bold',
+                zIndex: '999999',
+                fontSize: '16px',
+                backgroundColor: 'rgba(25,0,51,.85)',
+              });
             jQuery("#display_name").append(displayName);
             jQuery("#ad_serving").append(adServing);
             jQuery("#is_mobile").append(mobile);
-            // console.log(html);
+
           })
         });
-        /* jQuery.ajax({
-          url: adUrl,
-          dataType: 'jsonp',
-          crossDomain: true,
-          cache: true,
-          jsonp: 'callback',
-          jsonpCallback: 'receiveads',
-          type: 'GET',
-          success: (function receiveads(jsonads) {
-          jsonads = jsonads.first();
-            var configAds = {
-              "Adslots name ": jsonads.name,
-              "Adslot sizes ": jsonads.dimensions,
-            };
-            console.log(jsonads);
-            var adItems = [];
-            jQuery.each(configAds, function(key, val) {
-              adItems.push('<ul id="info">' + key + ' ' + val +
-                '</ul');
-            });
-            jQuery('<div>', {
-              'id': 'ad_info',
-              html: adItems.join('')
-            });
-          })
-        });
-        jQuery(adItems).appendTo('#psn_info'); */
-        // Not CORS-friendly (deprecated)
-        /*    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId='+pub+'&format=json'
-      jQuery.getJSON(url, function(json) {
-        var config = { "Display Name is " : json.display_name,
-        "CPM is " : json.cpm,
-        "Is ad serving enabled? " : json.ad_serving_enabled,
-        "Site URL is " : json.base_site,
-        "Is it mobile? " : json.is_mobile
-      };
-        var items = [];
-        jQuery.each(config, function(key, val) {
-        items.push( '<li id="info">' + key + ' ' + val + '</li>' );
-      });
-        jQuery('<ul/>', {
-        'id': 'pub_info',
-        html: items.join('')
-      }).appendTo('#psn_info');
-    }); */
-        console.log('it works! ');
       }
       //  });
     }();
