@@ -30,7 +30,7 @@ function execute() {
         document.cookie = c.replace(/^ +/, "").replace(/=.*/,
           "=;expires=" + new Date().toUTCString() + ";path=/");
       });
-      var ybGo, pairs, html, requestId, pvi;
+      var ybGo, pairs, html, requestId, pvi, dfpSlots;
       // Is intent tag present
       var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]').attr(
         'src');
@@ -93,14 +93,13 @@ function execute() {
         var rendIndex = [];
         var rendPage = [];
         var dfpValues = [];
-        dh = googletag.pubads().$[0].aa
-        h = yieldbot._history;
+        var h = yieldbot._history;
         for (var i = 0, len = h.length; i < len; i++) {
           values.push(h[i][0]);
         }
 
         console.log(values);
-        var initTk = JSON.stringify(values).match(/init took \d+ms/g);
+        var initTk = JSON.stringify(values).match(/init took \d{2}/g);
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
         var setSlotTargeting = values.includes('yieldbot.setSlotTargeting');
@@ -112,6 +111,22 @@ function execute() {
         var adOnPage = values.includes('cts_ad');
         var adAvailable = yieldbot.adAvailable();
         var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
+        if (undefined !== googletag.service_manager_instance.j.publisher_ads.D.ybot) {
+          dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
+        } else if (undefined === googletag.service_manager_instance.j.publisher_ads.D.ybot) {
+        var dfpValues = googletag.slot_manager_instance.l;
+        for (var key in dfpValues) {
+            // skip loop if the property is from prototype
+            if (!dfpValues.hasOwnProperty(key)) continue;
+             obj = dfpValues[key].w;
+        if (obj.ybot_ad == 'y') {
+        dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
+        }
+      } }
+      else {
+        dfpSlots = 'no info found';
+      }
+
         if (null !== initTk) {
           initTook = '<span style="color:red;"> but ' + initTk;
         }
