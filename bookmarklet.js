@@ -34,7 +34,7 @@ function execute() {
       // Is intent tag present
       var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]').attr(
         'src');
-      if (undefined == intentTagSrc) {
+      if (undefined === intentTagSrc) {
         var noGo = jQuery(
           '<div class="no_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>The intent tag is <span style="color:red;font-weight: normal;"> not loaded or is loaded in an iframe. Incorrect implementation.</span></div></div>'
         );
@@ -79,7 +79,6 @@ function execute() {
           }
         } */
         // running through all of the history data stored
-
         var slotsPage = [];
         var matchSlotsPage = [];
         var adSlots = [];
@@ -92,12 +91,13 @@ function execute() {
         for (var i = 0, len = h.length; i < len; i++) {
           values.push(h[i][0]);
         }
-
         console.log(values);
-        var initTk = JSON.stringify(values).match(/init took \d{2}/g);
+        var initTk = JSON.stringify(values).match(/init took \d+/g);
+        console.log(initTk);
         var intentTagAsync = values.includes('yieldbot.enableAsync');
         var getPageCriteria = values.includes('yieldbot.getPageCriteria');
-        var setSlotTargeting = values.includes('yieldbot.setSlotTargeting');
+        var setSlotTargeting = values.includes(
+          'yieldbot.setSlotTargeting');
         var params = values.includes('yieldbot.params');
         var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
         var render = values.includes('cts_rend');
@@ -108,24 +108,28 @@ function execute() {
         var dfp = googletag.service_manager_instance.j.publisher_ads.D.ybot;
         // var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
         if (undefined !== dfp) {
-          dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
-        } else if (undefined === googletag.service_manager_instance.j.publisher_ads.D.ybot) {
-        var dfpValues = googletag.slot_manager_instance.l;
-        for (var key in dfpValues) {
+          dfpSlots = googletag.service_manager_instance.j.publisher_ads.D
+            .ybot;
+        } else if (undefined === googletag.service_manager_instance.j.publisher_ads
+          .D.ybot) {
+          var dfpValues = googletag.slot_manager_instance.l;
+          for (var key in dfpValues) {
             // skip loop if the property is from prototype
             if (!dfpValues.hasOwnProperty(key)) continue;
-             obj = dfpValues[key].w;
-        if (obj.ybot_ad == 'y') {
-        dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
+            obj = dfpValues[key].w;
+            if (obj.ybot_ad == 'y') {
+              dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
+              console.log(dfpSlots);
+            }
+          }
+        } else {
+          dfpSlots =
+            '<span style="font-weight:normal;color:red;">is not found';
         }
-      } } else  {
-        dfpSlots = 'no info found';
-      }
-
         if (null !== initTk) {
-          initTook = '<span style="color:red;"> but ' + initTk + 'seconds';
-        }
-        else {
+          initTook = '<span style="color:red;"> but ' + initTk +
+            'seconds';
+        } else {
           initTook = '<span style="color:green;">';
         }
         if (-1 !== impression) {
@@ -169,15 +173,18 @@ function execute() {
           console.log(consoleE); */
           for (a = 0; a < updateS.length; a++) {
             ad_slots = updateS[a].slot;
-            matchSlotsPage.push(ad_slots);
+            //            matchSlotsPage.push(ad_slots);
           }
           for (j = 0; j < updateS.length; j++) {
-            slots = JSON.stringify(updateS[j]);
-            slots = slots.replace(/[({})(\")]/g, ' ');
-            // console.log(slots);
+            slots = updateS[j];
+            matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
+            console.log(matchSlotsPage);
+            slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm + ', Size - ' + slots.size;
+            //console.log(slotsObj);
+            //slots = slots.replace(/[(\[\])({})(\")(slot)(size)(cpm)(,)]/g, '');
             adSlots.push(
               '<ul class="slot_info" style="padding:0;margin:0; color: #66CC00; font-weight: normal;">' +
-              slots + '</ul>');
+              slotsObj + '</ul>');
           }
           adSlots = adSlots.join('');
         } else {
@@ -186,15 +193,15 @@ function execute() {
           pvi =
             '<span style="font-weight: normal; color: red;"> undefined';
         }
-        /*  var isSameSet = function(arr1, arr2){
-          return  jQuery(arr1).not(arr2).length === 0 && jQuery(arr2).not(arr1).length === 0;
-        }
-        var resultMatch = isSameSet(slotsPage, matchSlotsPage);
-        console.log(resultMatch);
-        if (true === resultMatch){
-          matched = 'slots defined in system match slots defined on page';
-        } else if () {
 
+      /* var isSameSet = function(arr1, arr2) {
+          return jQuery(arr1).not(arr2).length === 0 && jQuery(arr2).not(
+            arr1).length === 0;
+        }
+        var resultMatch = isSameSet(dfpSlots, matchSlotsPage);
+        console.log(resultMatch);
+        if (true === resultMatch) {
+          matched = 'slots defined in system match slots defined on page';
         } */
         for (var b = 0; b < h.length; b++) {
           if (h[b][0] === 'cts_ad') {
@@ -230,7 +237,10 @@ function execute() {
         }
         if (true === getPageCriteria || true === getSlotCriteria || true ===
           params || true === setSlotTargeting) {
-          if (updateReq < values.indexOf('yieldbot.getPageCriteria') || values.indexOf('getSlotCriteria') || values.indexOf('yieldbot.params') || values.indexOf('yieldbot.setSlotTargeting')) {
+          if (updateReq < values.indexOf('yieldbot.getPageCriteria') ||
+            values.indexOf('getSlotCriteria') || values.indexOf(
+              'yieldbot.params') || values.indexOf(
+              'yieldbot.setSlotTargeting') && matchSlotsPage === dfpSlots) {
             targeting =
               '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
           }
@@ -253,7 +263,7 @@ function execute() {
           intentTag + ybGo + initTook +
           '</span></div><div class="yb_div"> Pub ID is  <span style="font-weight: normal; color:#66CC00 ;"> ' +
           pub +
-          '<span id="display_name" style="color:orange;font-weight:normal;z-index:999999;"> should be </span></div><div class="yb_div"> Slots we\'re trying to bid on: ' +
+          '<span id="display_name" style="color:orange;font-weight:normal;z-index:999999;"> should be </span></div><div class="yb_div"> Trying to bid on: ' +
           adSlots +
           '</span></div><div class="yb_div"> Slots defined on the page: <span style="font-weight:normal; color: #66CC00;">' +
           slotsPage +
@@ -261,7 +271,6 @@ function execute() {
           targeting + '</span> </div> <div class="yb_div">' +
           '</span></div> <div id="yb_div"> <span id="ad_serving" style="font-weight:normal;color:orange;"> </span> </div> <div id="yb_div"> <span id="is_mobile" style="font-weight:normal;color:orange;"> </span></div></div>'
         );
-
         //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
         //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
         //console.log('received');
@@ -290,24 +299,23 @@ function execute() {
             mobile =
               '<span style="font-weight:bold;color:white;">Mobile? </span>' +
               configPub[2];
-              jQuery('body').append(element);
-              element.css({
-                position: 'fixed',
-                top: '0',
-                right: '0',
-                width: '500px',
-                height: 'auto',
-                color: 'white',
-                padding: '0 0.5% 2% 3%',
-                fontWeight: 'bold',
-                zIndex: '999999',
-                fontSize: '16px',
-                backgroundColor: 'rgba(25,0,51,.85)',
-              });
+            jQuery('body').append(element);
+            element.css({
+              position: 'fixed',
+              top: '0',
+              right: '0',
+              width: '500px',
+              height: 'auto',
+              color: 'white',
+              padding: '0 0.5% 2% 3%',
+              fontWeight: 'bold',
+              zIndex: '999999',
+              fontSize: '16px',
+              backgroundColor: 'rgba(25,0,51,.85)',
+            });
             jQuery("#display_name").append(displayName);
             jQuery("#ad_serving").append(adServing);
             jQuery("#is_mobile").append(mobile);
-
           })
         });
       }
