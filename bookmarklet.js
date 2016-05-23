@@ -112,10 +112,14 @@
             values.push(h[i][0]);
           }
           //console.log(values);
-          var initTk = values.toString().match(/init took \d+/g);
+          if (JSON.stringify(values).match(/init took \d+/g) !== null){}
+          initTk = values.toString().match(/init took \d+/g);
           initTk = initTk.toString().split(' ');
           initTk = parseInt(initTk[2])/1000;
             console.log(initTk);
+
+
+          }
           var intentTagAsync = values.includes('yieldbot.enableAsync');
           var getPageCriteria = values.includes(
             'yieldbot.getPageCriteria');
@@ -140,8 +144,7 @@
               if (!dfpValues.hasOwnProperty(key)) continue;
               obj = dfpValues[key].w;
               if (obj.ybot_ad == 'y') {
-                dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj
-                  .ybot_size;
+                dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
                 //console.log(dfpSlots);
               }
             }
@@ -150,7 +153,7 @@
           }
           if (null !== initTk) {
             initTook = '<span style="color:red;"> but ' + initTk +
-              ' sec';
+              ' seconds';
           } else {
             initTook = '<span style="color:green;">';
           }
