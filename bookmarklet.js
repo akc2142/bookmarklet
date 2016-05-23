@@ -70,7 +70,23 @@
           'src');
         // if init's undefined, don't continue
         if (undefined === init) {
-          console.log('works for undefined init'); //better description here
+          var noGoInit = jQuery(
+            '<div class="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>Init is <span style="color:red;font-weight: normal;"> not defined. Try refreshing. If the problem persists, contact a TAM. </span></div></div>'
+          );
+          jQuery('body').append(noGoInit);
+          noGoInit.css({
+            position: 'fixed',
+            top: '0',
+            right: '0',
+            width: '500px',
+            height: 'auto',
+            color: 'white',
+            padding: '0 2% 0 3%',
+            fontWeight: 'bold',
+            zIndex: '999999',
+            fontSize: '16px',
+            backgroundColor: 'rgba(25,0,51,.85)',
+          }); //better description here
         } else {
           //To compare ^ to the system's slot names via API
           /*  for (var key in h) {
@@ -87,14 +103,13 @@
           var slotIndex = [];
           var rendIndex = [];
           var rendPage = [];
-          var dfpValues = [];
           var h = yieldbot._history;
           for (var i = 0, len = h.length; i < len; i++) {
             values.push(h[i][0]);
           }
-          console.log(values);
+          //console.log(values);
           var initTk = JSON.stringify(values).match(/init took \d+/g);
-          console.log(initTk);
+          //  console.log(initTk);
           var intentTagAsync = values.includes('yieldbot.enableAsync');
           var getPageCriteria = values.includes(
             'yieldbot.getPageCriteria');
@@ -103,8 +118,8 @@
           var params = values.includes('yieldbot.params');
           var getSlotCriteria = values.includes(
             'yieldbot.getSlotCriteria');
-          var render = values.includes('cts_rend');
-          var impression = values.indexOf('cts_imp');
+          // var render = values.includes('cts_rend');
+          // var impression = values.indexOf('cts_imp');
           var updateReq = values.indexOf('yieldbot.updateState');
           var adOnPage = values.includes('cts_ad');
           var adAvailable = yieldbot.adAvailable();
@@ -123,12 +138,11 @@
               if (obj.ybot_ad == 'y') {
                 dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj
                   .ybot_size;
-                console.log(dfpSlots);
+                //console.log(dfpSlots);
               }
             }
           } else {
-            dfpSlots =
-              '<span style="font-weight:normal;color:red;">is not found';
+            dfpSlots = false;
           }
           if (null !== initTk) {
             initTook = '<span style="color:red;"> but ' + initTk +
@@ -136,7 +150,7 @@
           } else {
             initTook = '<span style="color:green;">';
           }
-          if (-1 !== impression) {
+          /* if (-1 !== impression) {
             requestId =
               'is <span style="font-weight: normal; color: #66CC00;"> ' +
               h[impression][1];
@@ -157,7 +171,7 @@
           } else {
             asyncEnabled =
               '<span style="font-weight: normal; color:orange;"> not enabled';
-          }
+          } */
           for (var l = 0; l < h.length; l++) {
             if (h[l][0] === 'yieldbot.defineSlot') {
               slotIndex.push(l);
@@ -165,8 +179,11 @@
           }
           for (var m = 0; m < slotIndex.length; m++) {
             index = h[slotIndex[m]][2];
-            slotsPage.push(index);
+            slotsPage.push(
+              '<ul class="slot_info" style="padding:0;margin:0; color: #66CC00; font-weight: normal;">' +
+              index + '</ul>');
           }
+          slotsPage = slotsPage.join('');
           if (-1 !== updateReq) {
             pvi = '<span style="font-weight:normal; color: #66CC00;">' +
               h[updateReq][2].pvi;
@@ -174,16 +191,16 @@
             // console.log(updateS);
             /*  consoleErrors = if () {h[updateReq][4][0]; console.log('works')} else {console.log('doesn\'t work');}
 
-          console.log(consoleE); */
+          console.log(consoleE);
             for (a = 0; a < updateS.length; a++) {
               ad_slots = updateS[a].slot;
-              //            matchSlotsPage.push(ad_slots);
-            }
+                      matchSlotsPage.push(ad_slots);
+            } */
             for (j = 0; j < updateS.length; j++) {
               slots = updateS[j];
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots
                 .size;
-              console.log(matchSlotsPage);
+              // console.log('match slots page: ' + matchSlotsPage);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
               //console.log(slotsObj);
@@ -219,7 +236,7 @@
             rendPage.push(rindex);
             console.log(rendPage);
           }
-          if (-1 != adOnPage) {
+          /* if (-1 !== adOnPage) {
             adPushed =
               '<span style="font-weight: normal;color:#66CC00;"> ' +
               rendPage;
@@ -228,12 +245,12 @@
             adPushed =
               '<span style="font-weight:normal; color: orange;"> was not requested ';
           }
-          /* if (true === initTime) {
+          if (true === initTime) {
           timeout =
             ' <span style="color:red;"> and it took longer than 4sec to load so it timed out </span>';
         } else {
           timeout = ' in under 4sec';
-        } */
+        }
           if (-1 !== impression) {
             adServed =
               ' <span style="font-weight:normal; color: #66CC00;"> and impression was recorded - good to go! </span>';
@@ -241,6 +258,11 @@
             adServed =
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
           }
+          //debugging
+          if (matchSlotsPage === dfpSlots) {
+            console.log('strings match each other');
+          } */
+          //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
             true === params || true === setSlotTargeting) {
             if (updateReq < values.indexOf('yieldbot.getPageCriteria') ||
@@ -253,15 +275,13 @@
             }
           } else {
             targeting =
-              '<span style="color: red; font-weight:normal; "> not set - this is a fatal error; please have the client fix it :(';
+              '<span style="color: red; font-weight:normal; "> not set or timed out (see above if init took longer than 4 sec) - fatal error. ';
           }
-          if (true === render) {
-            renderAd =
-              ' <span style="color: #66CC00;font-weight: normal;">, rendered - good to go, </span>';
-          } else {
-            renderAd =
-              ' <span style="color: red; font-weight: normal; "> not rendered (something is wrong if you\'re using the testing tool), </span>';
-          }
+          if (undefined === adOnPage && adAvailable == 'y') {
+          renderAd = ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
+        } else {
+          renderAd = '';
+        }
           //creating the element on the page and styling
           var element = jQuery(
             '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
@@ -276,12 +296,14 @@
             slotsPage +
             '</span> </div><div class="yb_div"> Targeting is ' +
             targeting + '</span> </div> <div class="yb_div">' +
+            '</span> </div><div class="yb_div">' + renderAd +
+            '</span> </div> <div class="yb_div">' +
             '</span></div> <div id="yb_div"> <span id="ad_serving" style="font-weight:normal;color:orange;"> </span> </div> <div id="yb_div"> <span id="is_mobile" style="font-weight:normal;color:orange;"> </span></div></div>'
           );
           //  var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId=ffd8&format=json'
           //    var url = 'https://ui.yieldbot.com/config/v3/publisher?query=docId:ffd8';
           //console.log('received');
-          var url = 'https://ui.yieldbot.com/v2/config/publisher/'
+          var url = 'https://ui.yieldbot.com/v2/config/publisher/';
           var pubUrl = url + pub;
           var adUrl = url + pub + '/adslot';
           //figre out how to handle appending
@@ -298,7 +320,7 @@
                 json.ad_serving_enabled,
                 json.is_mobile
               ];
-              console.log(configPub);
+              //console.log(configPub);
               displayName = configPub[0];
               adServing =
                 '<span style="font-weight:bold;color:white;">Ad serving enabled? </span>' +
@@ -329,7 +351,9 @@
         //  });
       }();
     } else {
-      alert('Page hasn\'t fully loaded. Please wait for it to finish loading before running the script');
+      alert(
+        'Page hasn\'t fully loaded. Please wait for it to finish loading before running the script'
+      );
     }
   }
 })();
