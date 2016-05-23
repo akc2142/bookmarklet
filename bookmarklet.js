@@ -19,9 +19,10 @@
   }
 
   function releaseTheKraken() {
-    $('#yb_box').remove();
-    $('#no_box').remove();
-    $('#no_init_box').remove();
+  //  clearInterval();
+    jQuery('#yb_box').remove();
+    jQuery('#no_box').remove();
+    jQuery('#no_init_box').remove();
     if (document.readyState === 'complete') {
       window.theKraken = function() {
         //  .ajax({
