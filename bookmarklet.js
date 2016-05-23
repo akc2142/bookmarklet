@@ -19,7 +19,7 @@
   }
 
   function releaseTheKraken() {
-  //  clearInterval();
+  clearInterval();
     jQuery('#yb_box').remove();
     jQuery('#no_box').remove();
     jQuery('#no_init_box').remove();
