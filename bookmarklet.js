@@ -20,7 +20,7 @@
 
   function releaseTheKraken() {
     $('#yb_box').remove();
-    if (document.readyState === 'complete' && ) {
+    if (document.readyState === 'complete') {
       window.theKraken = function() {
         //  .ajax({
         // Stop automatic page reload
