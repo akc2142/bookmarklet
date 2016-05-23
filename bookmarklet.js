@@ -20,6 +20,8 @@
 
   function releaseTheKraken() {
     $('#yb_box').remove();
+    $('#no_box').remove();
+    $('#no_init_box').remove();
     if (document.readyState === 'complete') {
       window.theKraken = function() {
         //  .ajax({
@@ -38,7 +40,7 @@
           .attr('src');
         if (undefined === intentTagSrc) {
           var noGo = jQuery(
-            '<div class="no_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>The intent tag is <span style="color:red;font-weight: normal;"> not loaded or is loaded in an iframe. Incorrect implementation.</span></div></div>'
+            '<div id="no_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Fatal error: the intent tag is not loaded or is loaded in an iframe. Chickety-check in with a TAM. </span></div></div>'
           );
           jQuery('body').append(noGo);
           noGo.css({
@@ -48,7 +50,7 @@
             width: '500px',
             height: 'auto',
             color: 'white',
-            padding: '0 2% 0 3%',
+            padding: '0 2% 2% 3%',
             fontWeight: 'bold',
             zIndex: '999999',
             fontSize: '16px',
@@ -70,9 +72,9 @@
         var init = jQuery('script[src*="init?cb=yieldbot.updateState"]').attr(
           'src');
         // if init's undefined, don't continue
-        if (undefined === init) {
+        if (undefined === init && undefined !== intentTagSrc) {
           var noGoInit = jQuery(
-            '<div class="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div>Init is <span style="color:red;font-weight: normal;"> not defined. Try refreshing. If the problem persists, contact a TAM. </span></div></div>'
+            '<div id="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Init is not defined but the intent tag is loaded. Try to refresh and test again. If the problem persists, chickety-check in a TAM. </span></div></div>'
           );
           jQuery('body').append(noGoInit);
           noGoInit.css({
@@ -82,7 +84,7 @@
             width: '500px',
             height: 'auto',
             color: 'white',
-            padding: '0 2% 0 3%',
+            padding: '0 2% 2% 3%',
             fontWeight: 'bold',
             zIndex: '999999',
             fontSize: '16px',
@@ -229,13 +231,13 @@
           for (var b = 0; b < h.length; b++) {
             if (h[b][0] === 'cts_ad') {
               rendIndex.push(b);
-              console.log(rendIndex);
+              //console.log(rendIndex);
             }
           }
           for (var c = 0; c < rendIndex.length; c++) {
             rindex = h[rendIndex[c]][1];
             rendPage.push(rindex);
-            console.log(rendPage);
+          //  console.log(rendPage);
           }
           /* if (-1 !== adOnPage) {
             adPushed =
