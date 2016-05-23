@@ -19,7 +19,7 @@
   }
 
   function releaseTheKraken() {
-  clearInterval();
+  // clearInterval();
     jQuery('#yb_box').remove();
     jQuery('#no_box').remove();
     jQuery('#no_init_box').remove();
@@ -112,8 +112,10 @@
             values.push(h[i][0]);
           }
           //console.log(values);
-          var initTk = JSON.stringify(values).match(/init took \d+/g);
-          //  console.log(initTk);
+          var initTk = values.toString().match(/init took \d+/g);
+          initTk = initTk.toString().split(' ');
+          initTk = parseInt(initTk[2])/1000;
+            console.log(initTk);
           var intentTagAsync = values.includes('yieldbot.enableAsync');
           var getPageCriteria = values.includes(
             'yieldbot.getPageCriteria');
@@ -130,10 +132,8 @@
           var dfp = googletag.service_manager_instance.j.publisher_ads.D.ybot;
           // var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
           if (undefined !== dfp) {
-            dfpSlots = googletag.service_manager_instance.j.publisher_ads
-              .D.ybot;
-          } else if (undefined === googletag.service_manager_instance.j.publisher_ads
-            .D.ybot) {
+            dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
+          } else if (undefined === googletag.service_manager_instance.j.publisher_ads.D.ybot) {
             var dfpValues = googletag.slot_manager_instance.l;
             for (var key in dfpValues) {
               // skip loop if the property is from prototype
@@ -150,7 +150,7 @@
           }
           if (null !== initTk) {
             initTook = '<span style="color:red;"> but ' + initTk +
-              'seconds';
+              ' sec';
           } else {
             initTook = '<span style="color:green;">';
           }
