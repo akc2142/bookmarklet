@@ -112,7 +112,8 @@
             values.push(h[i][0]);
           }
           //console.log(values);
-          if (JSON.stringify(values).match(/init took \d+/g) !== null){
+          var initTk = JSON.stringify(values).match(/init took \d+/g);
+          if (initTk !== null){
           initTk = values.toString().match(/init took \d+/g);
           initTk = initTk.toString().split(' ');
           initTk = parseInt(initTk[2])/1000;
@@ -151,7 +152,7 @@
           } else {
             dfpSlots = false;
           }
-          if (null !== initTk) {
+          if (undefined || null !== initTk) {
             initTook = '<span style="color:red;"> but ' + initTk +
               ' seconds';
           } else {
