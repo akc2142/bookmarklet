@@ -19,115 +19,111 @@
   }
 
   function releaseTheKraken() {
-  // clearInterval();
+    // clearInterval();
     jQuery('#yb_box').remove();
     jQuery('#no_box').remove();
     jQuery('#no_init_box').remove();
     if (document.readyState === 'complete') {
       window.theKraken = function() {
-        //  .ajax({
-        // Stop automatic page reload
-        /*  window.onbeforeunload = function() {
+          //  .ajax({
+          // Stop automatic page reload
+          /*  window.onbeforeunload = function() {
           return "Are you sure you want to leave? Think of the kittens!";
         } */
-        // Define all future variables in one step
-        document.cookie.split(";").forEach(function(c) {
-          document.cookie = c.replace(/^ +/, "").replace(/=.*/,
-            "=;expires=" + new Date().toUTCString() + ";path=/");
-        });
-        var ybGo, pairs, html, requestId, pvi, dfpSlots;
-        // Is intent tag present
-        var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]')
-          .attr('src');
-        if (undefined === intentTagSrc) {
-          var noGo = jQuery(
-            '<div id="no_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Fatal error: the intent tag is not loaded or is loaded in an iframe. Chickety-check in with a TAM. </span></div></div>'
-          );
-          jQuery('body').append(noGo);
-          noGo.css({
-            position: 'fixed',
-            top: '0',
-            right: '0',
-            width: '500px',
-            height: 'auto',
-            color: 'white',
-            padding: '0 2% 2% 3%',
-            fontWeight: 'bold',
-            zIndex: '999999',
-            fontSize: '16px',
-            backgroundColor: 'rgba(25,0,51,.85)',
+          // Define all future variables in one step
+          document.cookie.split(";").forEach(function(c) {
+            document.cookie = c.replace(/^ +/, "").replace(/=.*/,
+              "=;expires=" + new Date().toUTCString() + ";path=/");
           });
-        } else {
-          pub = yieldbot.pub(); // Retrieve pub ID
-          intentTag =
-            '<span style="color:#66CC00; font-weight:normal;"> loaded </span>';
-          if (true === yieldbot._initialized) {
-            ybGo =
-              ' <span style="font-weight:normal;color: #66CC00;"> and activated ';
+          var ybGo, pairs, html, requestId, pvi, dfpSlots;
+          // Is intent tag present
+          var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]')
+            .attr('src');
+          if (undefined === intentTagSrc) {
+            var noGo = jQuery(
+              '<div id="no_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Fatal error: the intent tag is not loaded or is loaded in an iframe. Chickety-check in with a TAM. </span></div></div>'
+            );
+            jQuery('body').append(noGo);
+            noGo.css({
+              position: 'fixed',
+              top: '0',
+              right: '0',
+              width: '500px',
+              height: 'auto',
+              color: 'white',
+              padding: '0 2% 2% 3%',
+              fontWeight: 'bold',
+              zIndex: '999999',
+              fontSize: '16px',
+              backgroundColor: 'rgba(25,0,51,.85)',
+            });
           } else {
-            ybGo =
-              ' <span style="font-weight:normal;color:red;"> and isn\'t activated :(';
+            pub = yieldbot.pub(); // Retrieve pub ID
+            intentTag =
+              '<span style="color:#66CC00; font-weight:normal;"> loaded </span>';
+            if (true === yieldbot._initialized) {
+              ybGo =
+                ' <span style="font-weight:normal;color: #66CC00;"> and activated ';
+            } else {
+              ybGo =
+                ' <span style="font-weight:normal;color:red;"> and isn\'t activated :(';
+            }
           }
-        }
-        //Checking to see if the YB init and DFP scripts are fired;
-        var init = jQuery('script[src*="init?cb=yieldbot.updateState"]').attr(
-          'src');
-        // if init's undefined, don't continue
-        if (undefined === init && undefined !== intentTagSrc) {
-          var noGoInit = jQuery(
-            '<div id="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Init is not defined but the intent tag is loaded. Try to refresh and test again. If the problem persists, chickety-check in a TAM. </span></div></div>'
-          );
-          jQuery('body').append(noGoInit);
-          noGoInit.css({
-            position: 'fixed',
-            top: '0',
-            right: '0',
-            width: '500px',
-            height: 'auto',
-            color: 'white',
-            padding: '0 2% 2% 3%',
-            fontWeight: 'bold',
-            zIndex: '999999',
-            fontSize: '16px',
-            backgroundColor: 'rgba(25,0,51,.85)',
-          }); //better description here
-        } else {
-          //To compare ^ to the system's slot names via API
-          /*  for (var key in h) {
+          //Checking to see if the YB init and DFP scripts are fired;
+          var init = jQuery('script[src*="init?cb=yieldbot.updateState"]').attr(
+            'src');
+          // if init's undefined, don't continue
+          if (undefined === init && undefined !== intentTagSrc) {
+            var noGoInit = jQuery(
+              '<div id="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Init is not defined but the intent tag is loaded. Try to refresh and test again. If the problem persists, chickety-check in a TAM. </span></div></div>'
+            );
+            jQuery('body').append(noGoInit);
+            noGoInit.css({
+              position: 'fixed',
+              top: '0',
+              right: '0',
+              width: '500px',
+              height: 'auto',
+              color: 'white',
+              padding: '0 2% 2% 3%',
+              fontWeight: 'bold',
+              zIndex: '999999',
+              fontSize: '16px',
+              backgroundColor: 'rgba(25,0,51,.85)',
+            }); //better description here
+          } else {
+            //To compare ^ to the system's slot names via API
+            /*  for (var key in h) {
           if (h.hasOwnProperty(keys)) {
             //console.log(values + " -> " + JSON.stringify(h[key]));
             //console.log(key + " -> " + h[key]);
           }
         } */
-          // running through all of the history data stored
-          var slotsPage = [];
-          var matchSlotsPage = [];
-          var adSlots = [];
-          var values = [];
-          var slotIndex = [];
-          var rendIndex = [];
-          var rendPage = [];
-          var h = yieldbot._history;
-          for (var i = 0, len = h.length; i < len; i++) {
-            values.push(h[i][0]);
-          }
-          //console.log(values);
-          if (JSON.stringify(values).match(/init took \d+/g) !== null){}
-          initTk = values.toString().match(/init took \d+/g);
-          initTk = initTk.toString().split(' ');
-          initTk = parseInt(initTk[2])/1000;
+            // running through all of the history data stored
+            var slotsPage = [];
+            var matchSlotsPage = [];
+            var adSlots = [];
+            var values = [];
+            var slotIndex = [];
+            var rendIndex = [];
+            var rendPage = [];
+            var h = yieldbot._history;
+            for (var i = 0, len = h.length; i < len; i++) {
+              values.push(h[i][0]);
+            }
+            //console.log(values);
+            if (JSON.stringify(values).match(/init took \d+/g) !== null) {}
+            initTk = values.toString().match(/init took \d+/g);
+            initTk = initTk.toString().split(' ');
+            initTk = parseInt(initTk[2]) / 1000;
             console.log(initTk);
-
-
           }
           var intentTagAsync = values.includes('yieldbot.enableAsync');
-          var getPageCriteria = values.includes(
-            'yieldbot.getPageCriteria');
+          var getPageCriteria = values.includes('yieldbot.getPageCriteria');
           var setSlotTargeting = values.includes(
             'yieldbot.setSlotTargeting');
           var params = values.includes('yieldbot.params');
-          var getSlotCriteria = values.includes(
-            'yieldbot.getSlotCriteria');
+          var getSlotCriteria = values.includes('yieldbot.getSlotCriteria');
           // var render = values.includes('cts_rend');
           // var impression = values.indexOf('cts_imp');
           var updateReq = values.indexOf('yieldbot.updateState');
@@ -136,8 +132,10 @@
           var dfp = googletag.service_manager_instance.j.publisher_ads.D.ybot;
           // var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
           if (undefined !== dfp) {
-            dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
-          } else if (undefined === googletag.service_manager_instance.j.publisher_ads.D.ybot) {
+            dfpSlots = googletag.service_manager_instance.j.publisher_ads.D
+              .ybot;
+          } else if (undefined === googletag.service_manager_instance.j.publisher_ads
+            .D.ybot) {
             var dfpValues = googletag.slot_manager_instance.l;
             for (var key in dfpValues) {
               // skip loop if the property is from prototype
@@ -192,8 +190,8 @@
           }
           slotsPage = slotsPage.join('');
           if (-1 !== updateReq) {
-            pvi = '<span style="font-weight:normal; color: #66CC00;">' +
-              h[updateReq][2].pvi;
+            pvi = '<span style="font-weight:normal; color: #66CC00;">' + h[
+              updateReq][2].pvi;
             updateS = h[updateReq][2].slots;
             // console.log(updateS);
             /*  consoleErrors = if () {h[updateReq][4][0]; console.log('works')} else {console.log('doesn\'t work');}
@@ -205,8 +203,7 @@
             } */
             for (j = 0; j < updateS.length; j++) {
               slots = updateS[j];
-              matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots
-                .size;
+              matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               // console.log('match slots page: ' + matchSlotsPage);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
@@ -241,7 +238,7 @@
           for (var c = 0; c < rendIndex.length; c++) {
             rindex = h[rendIndex[c]][1];
             rendPage.push(rindex);
-          //  console.log(rendPage);
+            //  console.log(rendPage);
           }
           /* if (-1 !== adOnPage) {
             adPushed =
@@ -270,13 +267,13 @@
             console.log('strings match each other');
           } */
           //targeting
-          if (true === getPageCriteria || true === getSlotCriteria ||
-            true === params || true === setSlotTargeting) {
+          if (true === getPageCriteria || true === getSlotCriteria || true ===
+            params || true === setSlotTargeting) {
             if (updateReq < values.indexOf('yieldbot.getPageCriteria') ||
               values.indexOf('getSlotCriteria') || values.indexOf(
                 'yieldbot.params') || values.indexOf(
-                'yieldbot.setSlotTargeting') && matchSlotsPage ===
-              dfpSlots) {
+                'yieldbot.setSlotTargeting') && matchSlotsPage === dfpSlots
+            ) {
               targeting =
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
             }
@@ -285,10 +282,11 @@
               '<span style="color: red; font-weight:normal; "> not set or timed out (see above if init took longer than 4 sec) - fatal error. ';
           }
           if (undefined === adOnPage && adAvailable == 'y') {
-          renderAd = ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
-        } else {
-          renderAd = '';
-        }
+            renderAd =
+              ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
+          } else {
+            renderAd = '';
+          }
           //creating the element on the page and styling
           var element = jQuery(
             '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
@@ -356,7 +354,6 @@
           });
         }
         //  });
-      }();
     } else {
       alert(
         'Page hasn\'t fully loaded. Please wait for it to finish loading before running the script'
