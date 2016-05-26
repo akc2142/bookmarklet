@@ -19,7 +19,7 @@
   }
 
   function releaseTheKraken() {
-  // clearInterval();
+    // clearInterval();
     jQuery('#yb_box').remove();
     jQuery('#no_box').remove();
     jQuery('#no_init_box').remove();
@@ -113,13 +113,11 @@
           }
           //console.log(values);
           var initTk = JSON.stringify(values).match(/init took \d+/g);
-          if (initTk !== null){
-          initTk = values.toString().match(/init took \d+/g);
-          initTk = initTk.toString().split(' ');
-          initTk = parseInt(initTk[2])/1000;
+          if (initTk !== null) {
+            initTk = values.toString().match(/init took \d+/g);
+            initTk = initTk.toString().split(' ');
+            initTk = parseInt(initTk[2]) / 1000;
             console.log(initTk);
-
-
           }
           var intentTagAsync = values.includes('yieldbot.enableAsync');
           var getPageCriteria = values.includes(
@@ -138,23 +136,24 @@
           // var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
           if (undefined !== dfp) {
             dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
-          } else if (undefined === googletag.service_manager_instance.j.publisher_ads.D.ybot) {
+          } else {
             var dfpValues = googletag.slot_manager_instance.l;
             for (var key in dfpValues) {
               // skip loop if the property is from prototype
               if (!dfpValues.hasOwnProperty(key)) continue;
               obj = dfpValues[key].w;
               if (obj.ybot_ad == 'y') {
-                dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
-                //console.log(dfpSlots);
+                dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj
+                  .ybot_size;
+              } else {
+                dfpSlots = null;
               }
             }
-          } else {
-            dfpSlots = false;
           }
+          console.log('dfp slots ' + dfpSlots);
           if (undefined || null !== initTk) {
-            initTook = '<span style="color:red;"> but ' + initTk +
-              ' seconds';
+            initTook = '<span style="color:red;"> but response took ' +
+              initTk + ' seconds';
           } else {
             initTook = '<span style="color:green;">';
           }
@@ -206,9 +205,8 @@
             } */
             for (j = 0; j < updateS.length; j++) {
               slots = updateS[j];
-              matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots
-                .size;
-              // console.log('match slots page: ' + matchSlotsPage);
+              matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
+              console.log('match slots page: ' + matchSlotsPage);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
               //console.log(slotsObj);
@@ -242,7 +240,7 @@
           for (var c = 0; c < rendIndex.length; c++) {
             rindex = h[rendIndex[c]][1];
             rendPage.push(rindex);
-          //  console.log(rendPage);
+            //  console.log(rendPage);
           }
           /* if (-1 !== adOnPage) {
             adPushed =
@@ -265,36 +263,43 @@
           } else {
             adServed =
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
+          }*/
+          // debugging
+          if ((slots || matchSlotsPage) === dfpSlots) {
+            console.log('match slots' + matchSlotsPage + ' dfp slots: ' +
+              dfpSlots);
+          } else {
+            console.log('they dont match');
           }
-          //debugging
-          if (matchSlotsPage === dfpSlots) {
-            console.log('strings match each other');
-          } */
+          matching = (slots || matchSlotsPage) === dfpSlots;
           //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
             true === params || true === setSlotTargeting) {
-            if (updateReq < values.indexOf('yieldbot.getPageCriteria') ||
-              values.indexOf('getSlotCriteria') || values.indexOf(
-                'yieldbot.params') || values.indexOf(
-                'yieldbot.setSlotTargeting') && matchSlotsPage ===
-              dfpSlots) {
+            if (updateReq < values.indexOf('yieldbot.getPageCriteria') &&
+              matching || values.indexOf('getSlotCriteria') && matching ||
+              values.indexOf('yieldbot.params') && matching || values.indexOf(
+                'yieldbot.setSlotTargeting') && matching) {
               targeting =
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
+            } else {
+              targeting =
+                '<span style="color: red; font-weight:normal; "> not set - slots passed DFP don\'t match our bid, aren\'t set or are set too late';
             }
           } else {
             targeting =
-              '<span style="color: red; font-weight:normal; "> not set or timed out (see above if init took longer than 4 sec) - fatal error. ';
+              '<span style="color: red; font-weight:normal; "> not set or timed out - fatal error. ';
           }
           if (undefined === adOnPage && adAvailable == 'y') {
-          renderAd = ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
-        } else {
-          renderAd = '';
-        }
+            renderAd =
+              ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
+          } else {
+            renderAd = '';
+          }
           //creating the element on the page and styling
           var element = jQuery(
-            '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
+            '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"> <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
             pub +
-            '"> Meow         </a> <a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="http://i.yldbt.com/m/start-testing"> Testing Tool </a></div> <div class="yb_div"> Intent tag is ' +
+            '"> Meow || </a> <a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="http://i.yldbt.com/m/start-testing"> Testing Tool </a></div> <div class="yb_div"> Intent tag is ' +
             intentTag + ybGo + initTook +
             '</span></div><div class="yb_div"> Pub ID is  <span style="font-weight: normal; color:#66CC00 ;"> ' +
             pub +
