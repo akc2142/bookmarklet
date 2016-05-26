@@ -290,12 +290,12 @@
             targeting =
               '<span style="color: red; font-weight:normal; "> not set or timed out - fatal error. ';
           }
-        /*  if (undefined === adOnPage && adAvailable == 'y') {
+         if (undefined === adOnPage && adAvailable == 'y') {
             renderAd =
               ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
           } else {
             renderAd = '';
-          } */
+          } 
           //creating the element on the page and styling
           var element = jQuery(
             '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"> <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
