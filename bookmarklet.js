@@ -35,7 +35,7 @@
           document.cookie = c.replace(/^ +/, "").replace(/=.*/,
             "=;expires=" + new Date().toUTCString() + ";path=/");
         });
-        var ybGo, pairs, html, requestId, pvi, dfpSlots, slots;
+        var ybGo, pairs, html, requestId, pvi, dfpSlots, dfpSlotsR, matchSlotsPageR, slots;
         // Is intent tag present
         var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]')
           .attr('src');
@@ -101,6 +101,7 @@
         } */
           // running through all of the history data stored
           var slotsPage = [];
+          var dfpSplitArray = [];
           var matchSlotsPage = [];
           var adSlots = [];
           var values = [];
@@ -135,16 +136,21 @@
           var dfp = googletag.service_manager_instance.j.publisher_ads.D.ybot;
           // var initTime = values.includes('init response took more than 4000ms to load, triggering resume()');
           if (undefined !== dfp) {
-            dfpSlots = googletag.service_manager_instance.j.publisher_ads.D.ybot;
+            dfpSplit = googletag.service_manager_instance.j.publisher_ads.D.ybot.toString().replace(',','');
+            // console.log(dfpSplit);
+            dfpSplitArray.push(dfpSplit);
+            dfpSlots = dfpSplitArray.toString();
+            console.log(dfpSlots);
+
           } else {
             var dfpValues = googletag.slot_manager_instance.l;
             for (var key in dfpValues) {
               // skip loop if the property is from prototype
               if (!dfpValues.hasOwnProperty(key)) continue;
               obj = dfpValues[key].w;
-              console.log(obj.ybot_ad);
               if (obj.ybot_ad == 'y') {
                 dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
+                dfpSlotsR = obj.ybot_slot + ':' + obj.ybot_size + ':' + obj.ybot_cpm;
                 console.log('dfp slots' + dfpSlots);
               }
             }
@@ -203,9 +209,10 @@
             } */
             for (j = 0; j < updateS.length; j++) {
               slots = updateS[j];
-              console.log('slots' + slots);
+            //  console.log('slots' + slots);
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
-              console.log('match slots page: ' + matchSlotsPage);
+              matchSlotsPageR = slots.slot + ':' + slots.size + ':' + slots.cpm;
+               console.log('match slots page: ' + matchSlotsPage + matchSlotsPageR);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
               //console.log(slotsObj);
@@ -264,7 +271,7 @@
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
           } */
           // debugging
-          if ((matchSlotsPage || slots) === dfpSlots) {
+          if ((matchSlotsPage || matchSlotsPageR || slots) === (dfpSlots || dfpSlotsR)) {
             console.log('match slots' + matchSlotsPage + ' dfp slots: ' +
               dfpSlots);
           } else {
