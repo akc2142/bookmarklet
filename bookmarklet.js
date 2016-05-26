@@ -142,14 +142,13 @@
               // skip loop if the property is from prototype
               if (!dfpValues.hasOwnProperty(key)) continue;
               obj = dfpValues[key].w;
+              console.log(obj.ybot_ad);
               if (obj.ybot_ad == 'y') {
                 dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
-              } else {
-                dfpSlots = null;
+                console.log(obj.ybot_slot);
               }
             }
           }
-          console.log('dfp slots ' + dfpSlots);
           if (undefined || null !== initTk) {
             initTook = '<span style="color:red;"> but response took ' +
               initTk + ' seconds';
@@ -203,7 +202,7 @@
                       matchSlotsPage.push(ad_slots);
             } */
             for (j = 0; j < updateS.length; j++) {
-              slots = updateS[j] || undefined;
+              slots = updateS[j];
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               console.log('match slots page: ' + matchSlotsPage);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
@@ -284,18 +283,20 @@
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
             } else {
               targeting =
-                '<span style="color: red; font-weight:normal; "> not set - fatal error';
+                '<span style="color: red; font-weight:normal; "> not set x - fatal error';
             }
+          } else if (undefined || null !== initTk){
+            targeting = '<span style="color: red; font-weight:normal; "> timed out - fatal error; try refreshing';
           } else {
             targeting =
-              '<span style="color: red; font-weight:normal; "> not set or timed out - fatal error. ';
+              '<span style="color: red; font-weight:normal; "> not set  - fatal error. ';
           }
          if (undefined === adOnPage && adAvailable == 'y') {
             renderAd =
               ' <span style="color: orange; font-weight: normal; "> Make sure the testing tool is on and you\'re on a page that has slots. If this error persists, check in with a TAM. It could just be we\'re not winning ';
           } else {
             renderAd = '';
-          } 
+          }
           //creating the element on the page and styling
           var element = jQuery(
             '<div id="yb_box"><div class="yb_header"><span style="font-size: 20px; color: #66CC00;"> <img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></span><a style="color: #66CC00!important; font-weight: bold;" target="_blank" href="https://my.yieldbot.com/ui/meow/publisher/' +
