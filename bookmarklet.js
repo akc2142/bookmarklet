@@ -35,7 +35,7 @@
           document.cookie = c.replace(/^ +/, "").replace(/=.*/,
             "=;expires=" + new Date().toUTCString() + ";path=/");
         });
-        var ybGo, pairs, html, requestId, pvi, dfpSlots;
+        var ybGo, pairs, html, requestId, pvi, dfpSlots, slots;
         // Is intent tag present
         var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]')
           .attr('src');
@@ -143,8 +143,7 @@
               if (!dfpValues.hasOwnProperty(key)) continue;
               obj = dfpValues[key].w;
               if (obj.ybot_ad == 'y') {
-                dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj
-                  .ybot_size;
+                dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
               } else {
                 dfpSlots = null;
               }
@@ -155,7 +154,7 @@
             initTook = '<span style="color:red;"> but response took ' +
               initTk + ' seconds';
           } else {
-            initTook = '<span style="color:green;">';
+            initTook = null;
           }
           /* if (-1 !== impression) {
             requestId =
@@ -204,7 +203,7 @@
                       matchSlotsPage.push(ad_slots);
             } */
             for (j = 0; j < updateS.length; j++) {
-              slots = updateS[j];
+              slots = updateS[j] || undefined;
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               console.log('match slots page: ' + matchSlotsPage);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
@@ -263,7 +262,7 @@
           } else {
             adServed =
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
-          }*/
+          } */
           // debugging
           if ((slots || matchSlotsPage) === dfpSlots) {
             console.log('match slots' + matchSlotsPage + ' dfp slots: ' +
@@ -271,19 +270,21 @@
           } else {
             console.log('they dont match');
           }
+
           matching = (slots || matchSlotsPage) === dfpSlots;
+
           //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
             true === params || true === setSlotTargeting) {
-            if (updateReq < values.indexOf('yieldbot.getPageCriteria') &&
-              matching || values.indexOf('getSlotCriteria') && matching ||
-              values.indexOf('yieldbot.params') && matching || values.indexOf(
-                'yieldbot.setSlotTargeting') && matching) {
+            if (updateReq < (values.indexOf('yieldbot.getPageCriteria') &&
+              matching)|| (values.indexOf('getSlotCriteria') && matching) ||
+              (values.indexOf('yieldbot.params') && matching) || (values.indexOf(
+                'yieldbot.setSlotTargeting') && matching)) {
               targeting =
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
             } else {
               targeting =
-                '<span style="color: red; font-weight:normal; "> not set - slots passed DFP don\'t match our bid, aren\'t set or are set too late';
+                '<span style="color: red; font-weight:normal; "> not set - fatal error';
             }
           } else {
             targeting =
