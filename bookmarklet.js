@@ -212,7 +212,7 @@
             //  console.log('slots' + slots);
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               matchSlotsPageR = slots.slot + ':' + slots.size + ':' + slots.cpm;
-               console.log('match slots page: ' + matchSlotsPage + matchSlotsPageR);
+               console.log('match slots page: ' + matchSlotsPage + 'MR' +matchSlotsPageR);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
               //console.log(slotsObj);
@@ -271,14 +271,14 @@
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
           } */
           // debugging
-          if ((matchSlotsPage || matchSlotsPageR || slots) === (dfpSlots || dfpSlotsR)) {
-            console.log('match slots' + matchSlotsPage + ' dfp slots: ' +
-              dfpSlots);
+          if ((matchSlotsPage || slots === dfpSlots) || (matchSlotsPageR === dfpSlotsR)) {
+            console.log('match slots' + matchSlotsPageR + ' dfp slots: ' +
+              dfpSlots + 'slotR: ' + dfpSlotsR);
           } else {
             console.log('they dont match');
           }
 
-          matching = (matchSlotsPage || slots) === dfpSlots;
+          matching = (matchSlotsPage || slots === dfpSlots) || (matchSlotsPageR === dfpSlotsR);
           console.log(matching);
 
           //targeting
