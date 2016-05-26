@@ -145,7 +145,7 @@
               console.log(obj.ybot_ad);
               if (obj.ybot_ad == 'y') {
                 dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
-                console.log(obj.ybot_slot);
+                console.log('dfp slots' + dfpSlots);
               }
             }
           }
@@ -203,6 +203,7 @@
             } */
             for (j = 0; j < updateS.length; j++) {
               slots = updateS[j];
+              console.log('slots' + slots);
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               console.log('match slots page: ' + matchSlotsPage);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
@@ -263,14 +264,15 @@
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
           } */
           // debugging
-          if ((slots || matchSlotsPage) === dfpSlots) {
+          if ((matchSlotsPage || slots) === dfpSlots) {
             console.log('match slots' + matchSlotsPage + ' dfp slots: ' +
               dfpSlots);
           } else {
             console.log('they dont match');
           }
 
-          matching = (slots || matchSlotsPage) === dfpSlots;
+          matching = (matchSlotsPage || slots) === dfpSlots;
+          console.log(matching);
 
           //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
