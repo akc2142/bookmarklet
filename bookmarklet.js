@@ -24,7 +24,7 @@
     jQuery('#no_box').remove();
     jQuery('#no_init_box').remove();
     if (document.readyState === 'complete') {
-      window.theKraken = function() {
+      theKraken = function() {
         //  .ajax({
         // Stop automatic page reload
         /*  window.onbeforeunload = function() {
@@ -288,11 +288,12 @@
               matching)|| (values.indexOf('getSlotCriteria') && matching) ||
               (values.indexOf('yieldbot.params') && matching) || (values.indexOf(
                 'yieldbot.setSlotTargeting') && matching)) {
+
               targeting =
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
             } else {
               targeting =
-                '<span style="color: red; font-weight:normal; "> not set x - fatal error';
+                '<span style="color: red; font-weight:normal; "> not set - fatal error';
             }
           } else if (undefined || null !== initTk){
             targeting = '<span style="color: red; font-weight:normal; "> timed out - fatal error; try refreshing';
