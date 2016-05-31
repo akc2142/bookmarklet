@@ -118,7 +118,7 @@
             initTk = values.toString().match(/init took \d+/g);
             initTk = initTk.toString().split(' ');
             initTk = parseInt(initTk[2]) / 1000;
-            console.log(initTk);
+            //console.log(initTk);
           }
           var intentTagAsync = values.includes('yieldbot.enableAsync');
           var getPageCriteria = values.includes(
@@ -140,7 +140,7 @@
             // console.log(dfpSplit);
             dfpSplitArray.push(dfpSplit);
             dfpSlots = dfpSplitArray.toString();
-            console.log(dfpSlots);
+            console.log('DFP SLOTS' + dfpSlots);
 
           } else {
             var dfpValues = googletag.slot_manager_instance.l;
@@ -212,7 +212,7 @@
             //  console.log('slots' + slots);
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               matchSlotsPageR = slots.slot + ':' + slots.size + ':' + slots.cpm;
-               console.log('match slots page: ' + matchSlotsPage + 'MR' +matchSlotsPageR);
+              // console.log('match slots page: ' + matchSlotsPage + 'MR' +matchSlotsPageR);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
               //console.log(slotsObj);
@@ -279,7 +279,7 @@
           }
 
           matching = (matchSlotsPage || slots === dfpSlots) || (matchSlotsPageR === dfpSlotsR);
-          console.log(matching);
+          // console.log('matched:' + matching );
 
           //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
