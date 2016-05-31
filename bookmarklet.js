@@ -271,24 +271,24 @@
               ' <span style="font-weight:normal; color: red;"> and impression was not recorded (something is wrong if you\'re using the testing tool) </span>';
           } */
           // debugging
-          if ((matchSlotsPage || slots === dfpSlots) || (matchSlotsPageR === dfpSlotsR)) {
+          if (((matchSlotsPage || slots) === dfpSlots) || (matchSlotsPageR === dfpSlotsR)) {
             console.log('match slots' + matchSlotsPageR + ' dfp slots: ' +
               dfpSlots + 'slotR: ' + dfpSlotsR);
           } else {
             console.log('they dont match');
           }
 
-          matching = (matchSlotsPage || slots === dfpSlots) || (matchSlotsPageR === dfpSlotsR);
-          // console.log('matched:' + matching );
+          matching = (((matchSlotsPage || slots) === dfpSlots) || (matchSlotsPageR === dfpSlotsR));
+           console.log('matched:' + matching );
 
           //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
             true === params || true === setSlotTargeting) {
-            if (updateReq < (values.indexOf('yieldbot.getPageCriteria') &&
-              matching)|| (values.indexOf('getSlotCriteria') && matching) ||
-              (values.indexOf('yieldbot.params') && matching) || (values.indexOf(
-                'yieldbot.setSlotTargeting') && matching)) {
-
+            if (updateReq < (values.indexOf('yieldbot.getPageCriteria') && true ===
+              matching)|| (values.indexOf('getSlotCriteria') && true === matching) ||
+              (values.indexOf('yieldbot.params') && true === matching) || (values.indexOf(
+                'yieldbot.setSlotTargeting') && true === matching)) {
+                  // console.log();
               targeting =
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
             } else {
