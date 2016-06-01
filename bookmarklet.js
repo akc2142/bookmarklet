@@ -75,7 +75,7 @@
         // if init's undefined, don't continue
         if (undefined === init && undefined !== intentTagSrc) {
           var noGoInit = jQuery(
-            '<div id="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Init is not defined but the intent tag is loaded. Try to refresh and test again. If the problem persists, chickety-check in a TAM. </span></div></div>'
+            '<div id="no_init_box"><div class="yb_header"><img src="https://raw.githubusercontent.com/akc2142/bookmarklet/master/yb.png"></div></br><div> Client didn\'t check themself and wrickety-wrecked themself. <span style="color:red;font-weight: normal;"> </br> Init is not defined but the intent tag is loaded. Try to refresh and test again. If the problem persists, chickety-check in with a TAM. </span></div></div>'
           );
           jQuery('body').append(noGoInit);
           noGoInit.css({
@@ -293,7 +293,7 @@
                 '<span style=" color: #66CC00;font-weight:normal;"> good to go!';
             } else {
               targeting =
-                '<span style="color: red; font-weight:normal; "> not set - fatal error';
+                '<span style="color: red; font-weight:normal; "> not set for 1 or more slots - fatal error';
             }
           } else if (undefined || null !== initTk){
             targeting = '<span style="color: red; font-weight:normal; "> timed out - fatal error; try refreshing';
