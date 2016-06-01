@@ -140,7 +140,8 @@
             // console.log(dfpSplit);
             dfpSplitArray.push(dfpSplit);
             dfpSlots = dfpSplitArray.toString();
-            console.log('DFP SLOTS' + dfpSlots);
+            dfpSlotsR = dfpSplitArray.toString();
+            //console.log('DFP SLOTS' + dfpSlots);
 
           } else {
             var dfpValues = googletag.slot_manager_instance.l;
@@ -151,7 +152,8 @@
               if (obj.ybot_ad == 'y') {
                 dfpSlots = obj.ybot_slot + ':' + obj.ybot_cpm + ':' + obj.ybot_size;
                 dfpSlotsR = obj.ybot_slot + ':' + obj.ybot_size + ':' + obj.ybot_cpm;
-                console.log('dfp slots' + dfpSlots);
+                console.log('dfp slots' + dfpSlotsR);
+                console.log('dfp slots reg'+ dfpSlots);
               }
             }
           }
@@ -212,7 +214,7 @@
             //  console.log('slots' + slots);
               matchSlotsPage = slots.slot + ':' + slots.cpm + ':' + slots.size;
               matchSlotsPageR = slots.slot + ':' + slots.size + ':' + slots.cpm;
-              // console.log('match slots page: ' + matchSlotsPage + 'MR' +matchSlotsPageR);
+              //console.log('match slots page: ' + matchSlotsPage + 'MR' +matchSlotsPageR);
               slotsObj = 'Slot - ' + slots.slot + ', CPM - ' + slots.cpm +
                 ', Size - ' + slots.size;
               //console.log(slotsObj);
@@ -278,8 +280,17 @@
             console.log('they dont match');
           }
 
-          matching = (((matchSlotsPage || slots) === dfpSlots) || (matchSlotsPageR === dfpSlotsR));
+          matching = ((matchSlotsPage === dfpSlots) || (matchSlotsPageR === dfpSlotsR) || (slots === dfpSlots));
            console.log('matched:' + matching );
+           console.log(matchSlotsPageR === dfpSlotsR);
+           console.log(matchSlotsPageR);
+           console.log(dfpSlotsR);
+           console.log((matchSlotsPage || slots) === dfpSlots);
+           console.log(matchSlotsPage || slots);
+           console.log(matchSlotsPage);
+           console.log(slots);
+           console.log(dfpSlots);
+
 
           //targeting
           if (true === getPageCriteria || true === getSlotCriteria ||
