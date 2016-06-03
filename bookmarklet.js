@@ -35,7 +35,7 @@
           document.cookie = c.replace(/^ +/, "").replace(/=.*/,
             "=;expires=" + new Date().toUTCString() + ";path=/");
         });
-        var ybGo, pairs, html, requestId, pvi, dfpSlots, gogletag, dfpSlotsR, matchSlotsPageR, slots;
+        var ybGo, pairs, html, requestId, pvi, dfpSlots, googletag, dfpSlotsR, matchSlotsPageR, slots;
         // Is intent tag present
         var intentTagSrc = jQuery('script[src*="/js/yieldbot.intent.js"]')
           .attr('src');
